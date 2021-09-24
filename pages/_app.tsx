@@ -1,17 +1,18 @@
-import "../styles/globals.scss";
-import type { AppProps } from "next/app";
-import React from "react";
-import { ThemeProvider as MuiTheme } from "@mui/material";
-import { jsx, ThemeProvider } from "@emotion/react";
-import { theme } from "styles/theme";
+import '../styles/globals.scss'
+import type { AppProps } from 'next/app'
+import { Nav } from 'components/Nav'
+import { UserProvider } from 'context/user'
+import React, { FC } from 'react'
+import { ThemeProvider } from 'context/theme'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <MuiTheme theme={theme}>
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </MuiTheme>
-  );
+	return (
+		<UserProvider>
+			<ThemeProvider>
+				<Nav />
+				<Component {...pageProps} />
+			</ThemeProvider>
+		</UserProvider>
+	)
 }
-export default MyApp;
+export default MyApp

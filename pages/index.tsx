@@ -9,35 +9,11 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
-
-type AssignmentBlock =
-	| { type: 'prep'; done: boolean; name: string }
-	| { type: 'homework'; done: boolean; name: string; message: string }
-	| {
-			type: 'assignment'
-			done: boolean
-			name: string
-			message: string
-			gradingMethod: 'numberic' | 'catagorical' | null
-	  }
-
-type DataBlock =
-	| {
-			type: 'class'
-			className: string
-			dueAssignments: AssignmentBlock[]
-	  }
-	| {
-			type: 'study'
-	  }
-
-interface WeekBlock {
-	monday: DataBlock[]
-	tuesday: DataBlock[]
-	wednesday: DataBlock[]
-	thursday: DataBlock[]
-	friday: DataBlock[]
-}
+import { DataBlock, Day, WeekBlock } from 'typings/data'
+import { transformDay } from 'internationalization/transformDay'
+import { Class } from 'components/Cards/Class'
+import { Study } from 'components/Cards/Study'
+import { Assignment } from 'components/Cards/Assignment'
 
 const mockData: WeekBlock = {
 	monday: [
@@ -46,94 +22,139 @@ const mockData: WeekBlock = {
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Engelsk',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Matematikk',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Geografi',
-			dueAssignments: [],
+			homework: [],
 		},
 	],
 	tuesday: [
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Norsk',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Samfunnskunnskap',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Kroppsøving',
-			dueAssignments: [],
+			homework: [],
 		},
 	],
 	wednesday: [
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Språk',
-			dueAssignments: [],
+			homework: [
+				{
+					id: '1',
+					done: false,
+					name: 'idk',
+				},
+				{
+					id: '3',
+					done: false,
+					name: 'idk',
+				},
+
+				{
+					id: '1',
+					done: false,
+					name: 'idk',
+				},
+				{
+					id: '3',
+					done: false,
+					name: 'idk',
+				},
+			],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Samfunnskunnskap',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Naturfag',
-			dueAssignments: [],
+			homework: [],
+		},
+		{
+			type: 'assignment',
+			name: 'random innlevering',
+			message: 'just do something idc',
+			gradingMethod: 'numeric',
+			due: new Date(),
 		},
 	],
 	thursday: [
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Naturfag',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Språk',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Norsk',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Matematikk',
-			dueAssignments: [],
+			homework: [],
 		},
 	],
 	friday: [
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Naturfag',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'study',
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Norsk',
-			dueAssignments: [],
+			homework: [],
 		},
 		{
 			type: 'class',
+			roomIdentifier: 'R000',
 			className: 'Engelsk',
-			dueAssignments: [],
+			homework: [],
 		},
 	],
 }
@@ -144,22 +165,20 @@ const Home: NextPage = () => {
 			<Stack spacing={2} direction='row'>
 				{Object.keys(mockData).map((key) => (
 					<Stack key={key} spacing={2} width={300}>
-						<Typography variant='h3'>{key}</Typography>
-						{(mockData[key as keyof WeekBlock] as DataBlock[]).map((value) =>
-							value.type === 'class' ? (
-								<Card>
-									<CardContent>
-										<Typography variant='h5'>{value.className}</Typography>
-									</CardContent>
-								</Card>
-							) : (
-								<Card>
-									<CardContent>
-										<Typography variant='h5'>
-											<Box fontStyle='italic'>Studietid</Box>
-										</Typography>
-									</CardContent>
-								</Card>
+						<StyledTypography variant='h3'>
+							{transformDay(key as Day)}
+						</StyledTypography>
+						{(mockData[key as keyof WeekBlock] as DataBlock[]).map(
+							(value, i) => (
+								<React.Fragment key={i}>
+									{value.type === 'class' ? (
+										<Class {...value} />
+									) : value.type === 'assignment' ? (
+										<Assignment {...value} />
+									) : (
+										<Study />
+									)}
+								</React.Fragment>
 							),
 						)}
 					</Stack>
@@ -169,14 +188,18 @@ const Home: NextPage = () => {
 	)
 }
 
+const StyledTypography = styled(Typography)`
+	color: ${({ theme }) => theme.palette.text.primary};
+`
+
 const MainContainer = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 100vh;
+	min-height: calc(100vh - 12rem);
 	width: 100vw;
-
-	background-color: ${({ theme }) => theme.palette.background.default};
+	padding-block-start: 6rem;
+	padding-block-end: 6rem;
 `
 
 export default Home
