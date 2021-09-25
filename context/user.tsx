@@ -1,3 +1,4 @@
+import { useMediaQuery } from '@mui/material'
 import React, {
 	createContext,
 	FC,
@@ -9,15 +10,8 @@ import React, {
 } from 'react'
 import { User } from 'typings/userData'
 
-// @ts-ignore
 const mockUser: User = {
 	type: null,
-}
-// @ts-ignore
-const anonUser: User = {
-	type: 'Anonymous',
-	assignmentData: {},
-	class: null,
 }
 
 export const userContext = createContext<
@@ -27,7 +21,14 @@ export const userContext = createContext<
 export const useUser = () => useContext(userContext)
 
 export const UserProvider: FC = ({ children }) => {
-	const [user, setUser] = useState(mockUser)
+	const [user, setUser] = useState<User>(mockUser)
+
+	const anonUser: User = {
+		type: 'Anonymous',
+		assignmentData: {},
+		class: null,
+		theme: useMediaQuery('(prefers-color-scheme: dark)') ? 'blue' : 'dark',
+	}
 
 	useEffect(() => {
 		if (user.type === null) {
