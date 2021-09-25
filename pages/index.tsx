@@ -1,6 +1,5 @@
 import Button from '@mui/material/Button'
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import Image from 'next/image'
 import React from 'react'
 import styled from '@emotion/styled'
@@ -9,11 +8,12 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
-import { DataBlock, Day, WeekBlock } from 'typings/data'
+import { DataBlock, Day, WeekBlock } from 'typings/timelineData'
 import { transformDay } from 'internationalization/transformDay'
 import { Class } from 'components/Cards/Class'
 import { Study } from 'components/Cards/Study'
 import { Assignment } from 'components/Cards/Assignment'
+import Head from 'next/head'
 
 const mockData: WeekBlock = {
 	monday: [
@@ -162,34 +162,39 @@ const mockData: WeekBlock = {
 
 const Home: NextPage = () => {
 	return (
-		<MainContainer>
-			<Stack
-				spacing={2}
-				direction='row'
-				flexWrap='wrap'
-				justifyContent='center'>
-				{Object.keys(mockData).map((key) => (
-					<Stack key={key} spacing={2} width={{ xl: 250, l: 200 }}>
-						<StyledTypography variant='h3'>
-							{transformDay(key as Day)}
-						</StyledTypography>
-						{(mockData[key as keyof WeekBlock] as DataBlock[]).map(
-							(value, i) => (
-								<React.Fragment key={i}>
-									{value.type === 'class' ? (
-										<Class {...value} />
-									) : value.type === 'assignment' ? (
-										<Assignment {...value} />
-									) : (
-										<Study />
-									)}
-								</React.Fragment>
-							),
-						)}
-					</Stack>
-				))}
-			</Stack>
-		</MainContainer>
+		<>
+			<Head>
+				<title>Timeplan</title>
+			</Head>
+			<MainContainer>
+				<Stack
+					spacing={2}
+					direction='row'
+					flexWrap='wrap'
+					justifyContent='center'>
+					{Object.keys(mockData).map((key) => (
+						<Stack key={key} spacing={2} width={{ xl: 250, l: 200 }}>
+							<StyledTypography variant='h3'>
+								{transformDay(key as Day)}
+							</StyledTypography>
+							{(mockData[key as keyof WeekBlock] as DataBlock[]).map(
+								(value, i) => (
+									<React.Fragment key={i}>
+										{value.type === 'class' ? (
+											<Class {...value} />
+										) : value.type === 'assignment' ? (
+											<Assignment {...value} />
+										) : (
+											<Study />
+										)}
+									</React.Fragment>
+								),
+							)}
+						</Stack>
+					))}
+				</Stack>
+			</MainContainer>
+		</>
 	)
 }
 

@@ -5,7 +5,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import React, { FC } from 'react'
-import { ClassDataBlock } from 'typings/data'
+import { ClassDataBlock } from 'typings/timelineData'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import styled from '@emotion/styled'
 import { CardStyledAccordion } from 'styles/card'
@@ -34,16 +34,18 @@ export const Class: FC<ClassDataBlock> = ({
 						<Box component='span' fontWeight='bold'>
 							{' '}
 							{className}
-						</Box><br/>
+						</Box>
+						<br />
 						<DisabledBox component='span'>{roomIdentifier}</DisabledBox>
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
 					{homework.length ? (
 						<Stack spacing={2}>
-							{homework.map((work, index) => (
+							{/* TODO */}
+							{/* {homework.map((work, index) => (
 								<Homework key={index} {...work} />
-							))}
+							))} */}
 						</Stack>
 					) : (
 						<Typography>

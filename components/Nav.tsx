@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
 import { alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -24,6 +24,7 @@ import {
 	mdClass,
 	stClassFactory,
 } from 'typings/userContentSelector'
+import { useRouter } from 'next/router'
 
 const UserSelectorSection: FC = () => {
 	const [user, setUser] = useUser()
@@ -55,23 +56,48 @@ const UserSelectorSection: FC = () => {
 				onInputChange={(event, newInputValue) => {
 					setInputValue(newInputValue)
 				}}
-				id='controllable-states-demo'
 				options={options}
-				sx={{ width: 300 }}
-				renderInput={(params) => <TextField {...params} label='Controllable' />}
+				renderInput={({ InputProps, inputProps: { color, ...inputProps } }) => (
+					<Search ref={InputProps.ref}>
+						<SearchIconWrapper>
+							<SearchIcon />
+						</SearchIconWrapper>
+						<StyledInputBase {...inputProps} />
+					</Search>
+				)}
 			/>
 		</>
 	)
 }
 
 export const Nav = () => {
+	const router = useRouter()
+
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const open = Boolean(anchorEl)
+
+	useEffect(() => {
+		router.prefetch('/')
+		router.prefetch('/assignments')
+	}, [router])
+
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget)
 	}
 	const handleClose = () => {
 		setAnchorEl(null)
+	}
+	const handlePageChange = (location: 'home' | 'assignments') => {
+		handleClose()
+
+		switch (location) {
+			case 'home':
+				router.push('/')
+				break
+			case 'assignments':
+				router.push('/assignments')
+				break
+		}
 	}
 
 	const [user, setUser] = useUser()
@@ -99,18 +125,13 @@ export const Nav = () => {
 					Heggenplanen
 				</Typography>
 
-				<Menu
-					open={open}
-					anchorEl={anchorEl}
-					onClose={handleClose}
-					onClick={console.log}>
-					<MenuItem onClick={handleClose}>Timeplan</MenuItem>
-					<MenuItem onClick={handleClose}>Innleveringer</MenuItem>
+				<Menu open={open} anchorEl={anchorEl} onClose={handleClose}>
+					<MenuItem onClick={() => handlePageChange('home')}>Timeplan</MenuItem>
+					<MenuItem onClick={() => handlePageChange('assignments')}>
+						Innleveringer
+					</MenuItem>
 					<Divider />
-					<NestedMenuItem
-						label='Tema'
-						parentMenuOpen={open}
-						onClick={handleClose}>
+					<NestedMenuItem label='Tema' parentMenuOpen={open}>
 						<MenuItem onClick={() => handleThemeChange('blue')}>
 							<FormatColorFillIcon sx={{ color: '#03A9F4' }} /> Hav
 						</MenuItem>
@@ -135,3 +156,53 @@ export const Nav = () => {
 const Spacer = styled.div`
 	margin-left: auto;
 `
+
+const MainField = styled(TextField)`
+	width: 300px;
+
+	margin-left: ${({ theme }) => theme.spacing(1)};
+
+	border: unset;
+`
+
+const Search = styled.div(({ theme }) => ({
+	position: 'relative',
+	borderRadius: theme.shape.borderRadius,
+	backgroundColor: alpha(theme.palette.common.white, 0.15),
+	'&:hover': {
+		backgroundColor: alpha(theme.palette.common.white, 0.25),
+	},
+	marginLeft: 0,
+	width: '100%',
+	[theme.breakpoints.up('sm')]: {
+		marginLeft: theme.spacing(1),
+		width: 'auto',
+	},
+}))
+
+const SearchIconWrapper = styled.div(({ theme }) => ({
+	padding: theme.spacing(0, 2),
+	height: '100%',
+	position: 'absolute',
+	pointerEvents: 'none',
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+}))
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+	color: 'inherit',
+	'& .MuiInputBase-input': {
+		padding: theme.spacing(1, 1, 1, 0),
+		// vertical padding + font size from searchIcon
+		paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+		transition: theme.transitions.create('width'),
+		width: '100%',
+		[theme.breakpoints.up('sm')]: {
+			width: '12ch',
+			'&:focus': {
+				width: '20ch',
+			},
+		},
+	},
+}))

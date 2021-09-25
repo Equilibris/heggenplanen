@@ -3,14 +3,14 @@ import React, { FC } from 'react'
 import { CardStyledAccordion } from 'styles/card'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { AssignmentDataBlock } from 'typings/data'
+import { AssignmentBlock } from 'typings/assignmentData'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { DisabledBox, PrimaryBox } from 'styles/boxes'
 
-export const Assignment: FC<AssignmentDataBlock> = ({ ...assignment }) => {
+export const Assignment: FC<AssignmentBlock> = ({ ...assignment }) => {
 	return (
 		<div>
 			<CardStyledAccordion>

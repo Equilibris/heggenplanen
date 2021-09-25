@@ -1,4 +1,4 @@
-import { Day } from 'typings/data'
+import { Day } from 'typings/timelineData'
 
 export const transformDay = (day: Day) =>
 	((
