@@ -40,6 +40,7 @@ export const Homework: FC<HomeworkBlock> = ({
 }
 
 const getCheckboxColor = (theme: Theme): any => {
+	// eslint-disable-next-line react-hooks/rules-of-hooks
 	const [user, _] = useUser()
 	if (user.theme == 'dark') {
 		return theme.palette.text.primary
