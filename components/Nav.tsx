@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Box from '@mui/material/Box'
@@ -18,6 +18,51 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import NightsStayIcon from '@mui/icons-material/NightsStay'
 import { useUser } from 'context/user'
 import { ThemeName } from 'typings/userData'
+import TextField from '@mui/material/TextField'
+import {
+	UserContentSelector,
+	mdClass,
+	stClassFactory,
+} from 'typings/userContentSelector'
+
+const UserSelectorSection: FC = () => {
+	const [user, setUser] = useUser()
+
+	const [value, setValue] = useState<UserContentSelector['class']>(
+		(user.type !== null && user.selector.class) || '1STA',
+	)
+
+	const [inputValue, setInputValue] = useState<string>(value)
+
+	const options = useMemo(
+		() => [
+			...mdClass,
+			...stClassFactory(1),
+			...stClassFactory(2),
+			...stClassFactory(3),
+		],
+		[],
+	)
+
+	return (
+		<>
+			<Autocomplete
+				value={value}
+				onChange={(event, newValue) => {
+					if (newValue) setValue(newValue)
+				}}
+				inputValue={inputValue}
+				onInputChange={(event, newInputValue) => {
+					setInputValue(newInputValue)
+				}}
+				id='controllable-states-demo'
+				options={options}
+				sx={{ width: 300 }}
+				renderInput={(params) => <TextField {...params} label='Controllable' />}
+			/>
+		</>
+	)
+}
 
 export const Nav = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -81,24 +126,12 @@ export const Nav = () => {
 					<Divider />
 					<MenuItem onClick={handleClose}>Logg Inn</MenuItem>
 				</Menu>
-
-				{/* <Autocomplete
-					value={value}
-					onChange={(event, newValue) => {
-						setValue(newValue)
-					}}
-					inputValue={inputValue}
-					onInputChange={(event, newInputValue) => {
-						setInputValue(newInputValue)
-					}}
-					id='controllable-states-demo'
-					options={options}
-					sx={{ width: 300 }}
-					renderInput={(params) => (
-						<TextField {...params} label='Controllable' />
-					)}
-				/> */}
+				<UserSelectorSection />
 			</Toolbar>
 		</AppBar>
 	)
 }
+
+const Spacer = styled.div`
+	margin-left: auto;
+`

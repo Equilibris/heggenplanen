@@ -32,6 +32,7 @@ export const UserProvider: FC = ({ children }) => {
 			assignmentData: {},
 			class: null,
 			theme: prefersDarkMode ? 'blue' : 'dark',
+			selector: { class: '1STA', language: 'German1' },
 		}),
 		[prefersDarkMode],
 	)

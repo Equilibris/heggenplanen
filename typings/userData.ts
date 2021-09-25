@@ -1,9 +1,13 @@
+import { UserContentSelector } from './userContentSelector'
+
 export type ThemeName = 'blue' | 'purple' | 'dark'
 
 export type SharedUserData = {
 	class: string | null
 	assignmentData: Record<string, boolean>
 	theme: ThemeName
+
+	selector: UserContentSelector
 }
 
 export type IdentifiedUser = {
@@ -15,6 +19,6 @@ export type AnonymousUser = {
 	type: 'Anonymous'
 } & SharedUserData
 
-export type ToBeUser = { type: null } 
+export type ToBeUser = { type: null }
 
 export type User = IdentifiedUser | AnonymousUser | ToBeUser
