@@ -15,6 +15,6 @@ export type AnonymousUser = {
 	type: 'Anonymous'
 } & SharedUserData
 
-export type ToBeUser = { type: null } & SharedUserData
+export type ToBeUser = { type: null } 
 
 export type User = IdentifiedUser | AnonymousUser | ToBeUser

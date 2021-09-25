@@ -18,6 +18,9 @@ export type StudyDataBlock = {
 
 export type AssignmentDataBlock = {
 	type: 'assignment'
+
+	id: string
+
 	name: string
 	message: string
 
