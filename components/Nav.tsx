@@ -29,7 +29,7 @@ const UserSelectorSection: FC = () => {
 	const [user, setUser] = useUser()
 
 	const [value, setValue] = useState<UserContentSelector['class']>(
-		(user.type !== null && user.selector.class) || '1STA',
+		(user.type !== null && user?.selector?.class) || '1STA',
 	)
 
 	const [inputValue, setInputValue] = useState<string>(value)
