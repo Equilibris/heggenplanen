@@ -7,6 +7,7 @@ import React, {
 	useEffect,
 	Dispatch,
 	SetStateAction,
+	useMemo,
 } from 'react'
 import { User } from 'typings/userData'
 
@@ -23,12 +24,17 @@ export const useUser = () => useContext(userContext)
 export const UserProvider: FC = ({ children }) => {
 	const [user, setUser] = useState<User>(mockUser)
 
-	const anonUser: User = {
-		type: 'Anonymous',
-		assignmentData: {},
-		class: null,
-		theme: useMediaQuery('(prefers-color-scheme: dark)') ? 'blue' : 'dark',
-	}
+	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+	const anonUser: User = useMemo(
+		() => ({
+			type: 'Anonymous',
+			assignmentData: {},
+			class: null,
+			theme: prefersDarkMode ? 'blue' : 'dark',
+		}),
+		[prefersDarkMode],
+	)
 
 	useEffect(() => {
 		if (user.type === null) {
@@ -48,7 +54,7 @@ export const UserProvider: FC = ({ children }) => {
 				else setUser(anonUser)
 			}
 		} else localStorage.setItem('user', JSON.stringify(user))
-	}, [user])
+	}, [user, anonUser])
 
 	return (
 		<userContext.Provider value={[user, setUser]}>
