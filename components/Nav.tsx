@@ -31,7 +31,7 @@ export const Nav = () => {
 
 	const [user, setUser] = useUser()
 	const handleThemeChange = (theme: ThemeName) => {
-		setUser({ ...user, theme })
+		if (user.type !== null) setUser({ ...user, theme })
 	}
 
 	return (

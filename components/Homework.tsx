@@ -39,10 +39,9 @@ export const Homework: FC<HomeworkBlock> = ({
 	)
 }
 
-const getCheckboxColor = (theme: Theme): any => {
-	// eslint-disable-next-line react-hooks/rules-of-hooks
+const useCheckboxColor = (theme: Theme): any => {
 	const [user, _] = useUser()
-	if (user.theme == 'dark') {
+	if (user.type !== null && user.theme === 'dark') {
 		return theme.palette.text.primary
 	} else {
 		return theme.palette.primary
@@ -51,6 +50,6 @@ const getCheckboxColor = (theme: Theme): any => {
 
 const StyledCheckBox = styled(CheckBox)`
 	&.Mui-checked {
-		color: ${({ theme }) => getCheckboxColor(theme)};
+		color: ${({ theme }) => useCheckboxColor(theme)};
 	}
 `

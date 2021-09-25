@@ -101,6 +101,7 @@ const mockData: WeekBlock = {
 			homework: [],
 		},
 		{
+			id: 'hello',
 			type: 'assignment',
 			name: 'random innlevering',
 			message: 'just do something idc',
@@ -162,7 +163,11 @@ const mockData: WeekBlock = {
 const Home: NextPage = () => {
 	return (
 		<MainContainer>
-			<Stack spacing={2} direction='row' flexWrap='wrap'  justifyContent='center'>
+			<Stack
+				spacing={2}
+				direction='row'
+				flexWrap='wrap'
+				justifyContent='center'>
 				{Object.keys(mockData).map((key) => (
 					<Stack key={key} spacing={2} width={{ xl: 250, l: 200 }}>
 						<StyledTypography variant='h3'>
