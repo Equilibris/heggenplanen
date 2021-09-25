@@ -27,8 +27,11 @@ export const Homework: FC<HomeworkBlock> = ({
 			<CardContent>
 				<Stack direction='row' justifyContent='space-between'>
 					<Typography>
-						<Box fontWeight='bold'>{props.name}</Box>
-						<Box>Gjøremål</Box>
+						<Box fontWeight='bold' component='span'>
+							{props.name}
+						</Box>
+						<br />
+						<Box component='span'>Gjøremål</Box>
 					</Typography>
 					<div>
 						<StyledCheckBox checked={done} onChange={(e) => setDone(!done)} />

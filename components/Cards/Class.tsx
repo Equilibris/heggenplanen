@@ -21,7 +21,7 @@ export const Class: FC<ClassDataBlock> = ({
 }) => {
 	return (
 		<div>
-			<CardStyledAccordion >
+			<CardStyledAccordion>
 				<AccordionSummary
 					expandIcon={
 						<PrimaryBox>
@@ -31,8 +31,11 @@ export const Class: FC<ClassDataBlock> = ({
 					aria-controls='panel1a-content'
 					id='panel1a-header'>
 					<Typography>
-						<Box fontWeight='bold'> {className}</Box>
-						<DisabledBox>{roomIdentifier}</DisabledBox>
+						<Box component='span' fontWeight='bold'>
+							{' '}
+							{className}
+						</Box><br/>
+						<DisabledBox component='span'>{roomIdentifier}</DisabledBox>
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
@@ -44,7 +47,9 @@ export const Class: FC<ClassDataBlock> = ({
 						</Stack>
 					) : (
 						<Typography>
-							<DisabledBox>Ingen gjøremål for timen</DisabledBox>
+							<DisabledBox component='span'>
+								Ingen gjøremål for timen
+							</DisabledBox>
 						</Typography>
 					)}
 				</AccordionDetails>

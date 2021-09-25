@@ -21,8 +21,11 @@ export const Assignment: FC<AssignmentDataBlock> = ({ ...assignment }) => {
 						</PrimaryBox>
 					}>
 					<Typography>
-						<Box fontWeight='bold'>{assignment.name}</Box>
-						<DisabledBox>
+						<Box component='span' fontWeight='bold'>
+							{assignment.name}
+						</Box>
+						<br />
+						<DisabledBox component='span'>
 							Frist: {assignment.due.getHours()}:{assignment.due.getMinutes()}
 						</DisabledBox>
 					</Typography>

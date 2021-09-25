@@ -11,7 +11,9 @@ export const Study = () => {
 		<StudyCard>
 			<CardContent>
 				<Typography>
-					<Box fontWeight='bold'>Studietid</Box>
+					<Box component='span' fontWeight='bold'>
+						Studietid
+					</Box>
 				</Typography>
 			</CardContent>
 		</StudyCard>
