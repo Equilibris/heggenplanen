@@ -162,9 +162,9 @@ const mockData: WeekBlock = {
 const Home: NextPage = () => {
 	return (
 		<MainContainer>
-			<Stack spacing={2} direction='row'>
+			<Stack spacing={2} direction='row' flexWrap='wrap'  justifyContent='center'>
 				{Object.keys(mockData).map((key) => (
-					<Stack key={key} spacing={2} width={300}>
+					<Stack key={key} spacing={2} width={{ xl: 250, l: 200 }}>
 						<StyledTypography variant='h3'>
 							{transformDay(key as Day)}
 						</StyledTypography>
