@@ -8,159 +8,17 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
-import { DataBlock, Day, WeekBlock } from 'typings/timelineData'
+import { DataBlock, WeekBlock } from 'typings/timelineData'
 import { transformDay } from 'internationalization/transformDay'
 import { Class } from 'components/Cards/Class'
 import { Study } from 'components/Cards/Study'
 import { Assignment } from 'components/Cards/Assignment'
 import Head from 'next/head'
-
-const mockData: WeekBlock = {
-	monday: [
-		{
-			type: 'study',
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Engelsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Matematikk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Geografi',
-			homework: [],
-		},
-	],
-	tuesday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Norsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Samfunnskunnskap',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Kroppsøving',
-			homework: [],
-		},
-	],
-	wednesday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Språk',
-			homework: [
-				{
-					id: '1',
-					done: false,
-					name: 'idk',
-				},
-				{
-					id: '3',
-					done: false,
-					name: 'idk',
-				},
-
-				{
-					id: '1',
-					done: false,
-					name: 'idk',
-				},
-				{
-					id: '3',
-					done: false,
-					name: 'idk',
-				},
-			],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Samfunnskunnskap',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Naturfag',
-			homework: [],
-		},
-		{
-			id: 'hello',
-			type: 'assignment',
-			name: 'random innlevering',
-			message: 'just do something idc',
-			gradingMethod: 'numeric',
-			due: new Date(),
-		},
-	],
-	thursday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Naturfag',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Språk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Norsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Matematikk',
-			homework: [],
-		},
-	],
-	friday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Naturfag',
-			homework: [],
-		},
-		{
-			type: 'study',
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Norsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Engelsk',
-			homework: [],
-		},
-	],
-}
+import { useWeekData } from 'context/data'
 
 const Home: NextPage = () => {
+	const [weekData] = useWeekData()
+
 	return (
 		<>
 			<Head>
@@ -172,24 +30,24 @@ const Home: NextPage = () => {
 					direction='row'
 					flexWrap='wrap'
 					justifyContent='center'>
-					{Object.keys(mockData).map((key) => (
+					{weekData.map((value, key) => (
 						<Stack key={key} spacing={2} width={{ xl: 250, l: 200 }}>
 							<StyledTypography variant='h3'>
-								{transformDay(key as Day)}
+								{transformDay(key)}
 							</StyledTypography>
-							{(mockData[key as keyof WeekBlock] as DataBlock[]).map(
-								(value, i) => (
-									<React.Fragment key={i}>
-										{value.type === 'class' ? (
+							{value.map((value, i) => (
+								<React.Fragment key={i}>
+									{value ? (
+										value.type === 'class' ? (
 											<Class {...value} />
-										) : value.type === 'assignment' ? (
-											<Assignment {...value} />
 										) : (
 											<Study />
-										)}
-									</React.Fragment>
-								),
-							)}
+										)
+									) : (
+										<Study />
+									)}
+								</React.Fragment>
+							))}
 						</Stack>
 					))}
 				</Stack>

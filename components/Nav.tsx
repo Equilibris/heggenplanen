@@ -5,7 +5,7 @@ import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import InputBase from '@mui/material/InputBase'
+import InputBase, { InputBaseProps } from '@mui/material/InputBase'
 import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
 import SearchIcon from '@mui/icons-material/Search'
@@ -57,12 +57,13 @@ const UserSelectorSection: FC = () => {
 					setInputValue(newInputValue)
 				}}
 				options={options}
+				blurOnSelect
 				renderInput={({ InputProps, inputProps: { color, ...inputProps } }) => (
 					<Search ref={InputProps.ref}>
 						<SearchIconWrapper>
 							<SearchIcon />
 						</SearchIconWrapper>
-						<StyledInputBase {...inputProps} />
+						<StyledInputBase type='text' {...(inputProps as InputBaseProps)} />
 					</Search>
 				)}
 			/>

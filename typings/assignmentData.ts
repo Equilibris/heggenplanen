@@ -1,5 +1,6 @@
 export type SharedAssignmentData = {
 	name: string
+	message: string
 	done: boolean
 }
 
@@ -9,8 +10,6 @@ export type HomeworkBlock = {
 
 export type AssignmentBlock = {
 	type: 'assignment'
-
-	message: string
 
 	gradingMethod: 'numeric' | 'categorical' | null
 

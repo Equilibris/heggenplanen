@@ -1,12 +1,4 @@
-import { Day } from 'typings/timelineData'
+import {} from 'typings/timelineData'
 
-export const transformDay = (day: Day) =>
-	((
-		{
-			monday: 'Mandag',
-			tuesday: 'Tirsdag',
-			wednesday: 'Onsdag',
-			thursday: 'Torsdag',
-			friday: 'Fredag',
-		} as Record<Day, string>
-	)[day])
+export const transformDay = (day: number) =>
+	['Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag'][day]

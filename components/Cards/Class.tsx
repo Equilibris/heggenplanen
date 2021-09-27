@@ -32,7 +32,7 @@ export const Class: FC<ClassDataBlock> = ({
 					id='panel1a-header'>
 					<Typography>
 						<Box component='span' fontWeight='bold'>
-							{' '}
+			
 							{className}
 						</Box>
 						<br />
@@ -42,10 +42,9 @@ export const Class: FC<ClassDataBlock> = ({
 				<AccordionDetails>
 					{homework.length ? (
 						<Stack spacing={2}>
-							{/* TODO */}
-							{/* {homework.map((work, index) => (
-								<Homework key={index} {...work} />
-							))} */}
+							{homework.map((id, index) => (
+								<Homework key={index} id={id} />
+							))}
 						</Stack>
 					) : (
 						<Typography>

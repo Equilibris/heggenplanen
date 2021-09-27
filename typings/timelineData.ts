@@ -12,8 +12,12 @@ export type StudyDataBlock = {
 	type: 'study'
 }
 
-export type DataBlock = ClassDataBlock | StudyDataBlock
+export type DataBlock = ClassDataBlock | StudyDataBlock | null
 
-export type Day = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday'
-
-export type WeekBlock = Record<Day, DataBlock[]>
+export type WeekBlock = [
+	DataBlock[],
+	DataBlock[],
+	DataBlock[],
+	DataBlock[],
+	DataBlock[],
+]

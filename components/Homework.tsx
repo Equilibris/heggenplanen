@@ -10,12 +10,13 @@ import { useGlobalStore } from 'hooks/useStore'
 import styled from '@emotion/styled'
 import { useUser } from 'context/user'
 import { Theme } from '@emotion/react'
+import { useAssignmentData } from 'context/data'
 
-export const Homework: FC<HomeworkBlock> = ({
+export const HomeworkByValue: FC<HomeworkBlock & { id: string }> = ({
 	id,
 	done: _done,
 	...props
-}: HomeworkBlock) => {
+}) => {
 	const [done, setDone] = useGlobalStore(id, _done)
 
 	useEffect(() => {
@@ -39,6 +40,20 @@ export const Homework: FC<HomeworkBlock> = ({
 				</Stack>
 			</CardContent>
 		</Card>
+	)
+}
+
+export const Homework: FC<{ id: string }> = ({ id }) => {
+	const [data] = useAssignmentData()
+
+	const value = data[id]
+
+	console.log(id, data, value)
+
+	return value && value.type === 'homework' ? (
+		<HomeworkByValue id={id} {...value} />
+	) : (
+		<></>
 	)
 }
 
