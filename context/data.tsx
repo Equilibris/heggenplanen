@@ -45,6 +45,17 @@ const mockAssignmentData: AssignmentData = {
 
 		due: new Date(2021, 8, 36, 20, 0),
 	},
+	d: {
+		type: 'assignment',
+		done: false,
+
+		name: 'test',
+		message: 'hard math',
+
+		gradingMethod: 'numeric',
+
+		due: new Date(2021, 8, 52, 13, 50),
+	},
 }
 
 export const assignmentDataContext = createContext<

@@ -62,7 +62,7 @@ const AssignmentStack = ({ label, assignments }: AssignmentStackProps) => {
 									<DisabledBox>
 										{
 											// formatDistance(new Date(), value.due) +
-											format(value.due, 'EEEE d/M, hh:MM', {
+											format(value.due, 'EEEE d/M, H:mm', {
 												locale: nbLocale,
 											})
 										}
