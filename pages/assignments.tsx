@@ -47,31 +47,33 @@ const AssignmentStack = ({ label, assignments }: AssignmentStackProps) => {
 				<PrimaryBox>{label}</PrimaryBox>
 			</Typography>
 			<br />
-			<Stack flexDirection='row'>
+			<Stack flexDirection='row' gap={2}>
 				{assignments.map(([key, value]) => (
-					<Accordion key={key}>
-						<AccordionSummary
-							expandIcon={
-								<PrimaryBox>
-									<ExpandMoreIcon color='inherit' />
-								</PrimaryBox>
-							}>
-							<Typography>
-								<Box>{value.name}</Box>
-								<DisabledBox>
-									{
-										// formatDistance(new Date(), value.due) +
-										format(value.due, 'EEEE d/M, hh:MM', {
-											locale: nbLocale,
-										})
-									}
-								</DisabledBox>
-							</Typography>
-						</AccordionSummary>
-						<AccordionDetails>
-							<Typography>{value.message}</Typography>
-						</AccordionDetails>
-					</Accordion>
+					<div key={key}>
+						<Accordion>
+							<AccordionSummary
+								expandIcon={
+									<PrimaryBox>
+										<ExpandMoreIcon color='inherit' />
+									</PrimaryBox>
+								}>
+								<Typography>
+									<Box>{value.name}</Box>
+									<DisabledBox>
+										{
+											// formatDistance(new Date(), value.due) +
+											format(value.due, 'EEEE d/M, hh:MM', {
+												locale: nbLocale,
+											})
+										}
+									</DisabledBox>
+								</Typography>
+							</AccordionSummary>
+							<AccordionDetails>
+								<Typography>{value.message}</Typography>
+							</AccordionDetails>
+						</Accordion>
+					</div>
 				))}
 			</Stack>
 		</div>
