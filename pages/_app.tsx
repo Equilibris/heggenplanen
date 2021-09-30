@@ -5,6 +5,9 @@ import { UserProvider } from 'context/user'
 import React, { FC } from 'react'
 import { ThemeProvider } from 'context/theme'
 import { AssignmentDataProvider, WeekDataProvider } from 'context/data'
+import { init } from 'config/firebase'
+
+if (typeof window !== 'undefined') init()
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
