@@ -1,13 +1,9 @@
-import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import React, { FC } from 'react'
 import { ClassDataBlock } from 'typings/timelineData'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import styled from '@emotion/styled'
 import { CardStyledAccordion } from 'styles/card'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -32,7 +28,6 @@ export const Class: FC<ClassDataBlock> = ({
 					id='panel1a-header'>
 					<Typography>
 						<Box component='span' fontWeight='bold'>
-			
 							{className}
 						</Box>
 						<br />

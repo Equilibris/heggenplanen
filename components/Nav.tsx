@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
 import { alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
@@ -27,7 +26,7 @@ import {
 import { useRouter } from 'next/router'
 
 const UserSelectorSection: FC = () => {
-	const [user, setUser] = useUser()
+	const [user] = useUser()
 
 	const [value, setValue] = useState<UserContentSelector['class']>(
 		(user.type !== null && user?.selector?.class) || '1STA',

@@ -2,11 +2,10 @@ import CheckBox from '@mui/material/Checkbox'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
-import React, { FC, useEffect } from 'react'
+import React, { FC } from 'react'
 import { HomeworkBlock } from 'typings/assignmentData'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
-import { useGlobalStore } from 'hooks/useStore'
 import styled from '@emotion/styled'
 import { useUser } from 'context/user'
 import { Theme } from '@emotion/react'
@@ -17,11 +16,9 @@ export const HomeworkByValue: FC<HomeworkBlock & { id: string }> = ({
 	done: _done,
 	...props
 }) => {
-	const [done, setDone] = useGlobalStore(id, _done)
+	const [user, setUser] = useUser()
 
-	useEffect(() => {
-		console.log(done)
-	}, [done])
+	const done = (user.type && user.assignmentData[id]) ?? false
 
 	return (
 		<Card>
@@ -35,7 +32,16 @@ export const HomeworkByValue: FC<HomeworkBlock & { id: string }> = ({
 						<Box component='span'>Gjøremål</Box>
 					</Typography>
 					<div>
-						<StyledCheckBox checked={done} onChange={(e) => setDone(!done)} />
+						<StyledCheckBox
+							checked={done}
+							onChange={() =>
+								user.type &&
+								setUser({
+									...user,
+									assignmentData: { ...user.assignmentData, [id]: !done },
+								})
+							}
+						/>
 					</div>
 				</Stack>
 			</CardContent>
@@ -58,7 +64,7 @@ export const Homework: FC<{ id: string }> = ({ id }) => {
 }
 
 const useCheckboxColor = (theme: Theme): any => {
-	const [user, _] = useUser()
+	const [user] = useUser()
 	if (user.type !== null && user.theme === 'dark') {
 		return theme.palette.text.primary
 	} else {
