@@ -45,6 +45,39 @@ const mockAssignmentData: AssignmentData = {
 
 		due: new Date(2021, 8, 36, 20, 0),
 	},
+	c2: {
+		type: 'assignment',
+		done: false,
+
+		name: 'presentation',
+		message: 'choose a country',
+
+		gradingMethod: 'numeric',
+
+		due: new Date(2021, 8, 36, 20, 0),
+	},
+	c3: {
+		type: 'assignment',
+		done: false,
+
+		name: 'presentation',
+		message: 'choose a country',
+
+		gradingMethod: 'numeric',
+
+		due: new Date(2021, 8, 36, 20, 0),
+	},
+	c4: {
+		type: 'assignment',
+		done: false,
+
+		name: 'presentation',
+		message: 'choose a country',
+
+		gradingMethod: 'numeric',
+
+		due: new Date(2021, 8, 36, 20, 0),
+	},
 	d: {
 		type: 'assignment',
 		done: false,

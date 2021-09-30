@@ -9,7 +9,7 @@ import { init } from 'config/firebase'
 
 if (typeof window !== 'undefined') init()
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
 	return (
 		<UserProvider>
 			<AssignmentDataProvider>

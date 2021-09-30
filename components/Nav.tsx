@@ -2,6 +2,7 @@ import React, { FC, useEffect, useMemo, useState } from 'react'
 import { alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputBase, { InputBaseProps } from '@mui/material/InputBase'
@@ -158,9 +159,11 @@ export const Nav = () => {
 							</MenuItem>
 						</NestedMenuItem>
 						<Divider />
-						<MenuItem onClick={handleModalOpen}>Logg Inn</MenuItem>
 					</Menu>
 					<UserSelectorSection />
+					<Spacer>
+						<Button onClick={handleModalOpen} color='inherit'>Logg Inn</Button>
+					</Spacer>
 				</Toolbar>
 			</AppBar>
 			<Modal
@@ -177,8 +180,10 @@ export const Nav = () => {
 	)
 }
 
+
+
 const Spacer = styled.div`
-	margin-left: auto;
+	margin-left: 20px;
 `
 
 const MainField = styled(TextField)`

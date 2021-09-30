@@ -17,7 +17,7 @@ import formatDistance from 'date-fns/formatDistance'
 import nbLocale from 'date-fns/locale/nb'
 
 // FROM STACKOVERFLOW
-function isDateInWeek(date: Date, offset = 0) {
+const isDateInWeek = (date: Date, offset = 0) => {
 	const todayObj = new Date()
 	const todayDate = todayObj.getDate()
 	const todayDay = todayObj.getDay()

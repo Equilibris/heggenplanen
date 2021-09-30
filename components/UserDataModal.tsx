@@ -1,27 +1,73 @@
 import styled from '@emotion/styled'
 import CardContent from '@mui/material/CardContent'
 import Card from '@mui/material/Card'
-import React, { FC, useState } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 import { PrimaryBox } from 'styles/boxes'
 import { useUser } from 'context/user'
+import { OAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
+import Button from '@mui/material/Button'
 
-const SignUpForm = () => {
+// const SignUpForm = () => {
+// 	return (
+// 		<>
+// 			<Typography variant='h3'>
+// 				<PrimaryBox component='span'> Sign up</PrimaryBox>
+// 			</Typography>
+// 		</>
+// 	)
+// }
+// const SignInForm = () => {
+// 	return (
+// 		<>
+// 			<Typography variant='h3'>
+// 				<PrimaryBox component='span'> Sign up</PrimaryBox>
+// 			</Typography>
+// 		</>
+// 	)
+// }
+const provider = new OAuthProvider('google.com')
+const auth = getAuth()
+
+provider.setCustomParameters({
+	prompt: 'consent',
+	login_hint: 'navn@elev.tffk.no',
+})
+provider.setDefaultLanguage('no-nb')
+
+// microsoft.addScope('mail.read')
+// microsoft.addScope('calendars.read')
+
+const OAuth = () => {
+	const signInWithMicrosoft = useCallback(() => {
+		signInWithPopup(auth, provider)
+			.then((result) => {
+				// User is signed in.
+				// IdP data available in result.additionalUserInfo.profile.
+
+				// Get the OAuth access token and ID Token
+				const credential = OAuthProvider.credentialFromResult(result)
+				if (credential) {
+					const accessToken = credential.accessToken
+					const idToken = credential.idToken
+
+					console.log(credential)
+				} else {
+					console.log({ credential })
+				}
+			})
+			.catch((error) => {
+				// Handle error.
+			})
+	}, [])
+
 	return (
 		<>
 			<Typography variant='h3'>
-				<PrimaryBox component='span'> Sign up</PrimaryBox>
+				<PrimaryBox component='span'>Sign up</PrimaryBox>
 			</Typography>
-		</>
-	)
-}
-const SignInForm = () => {
-	return (
-		<>
-			<Typography variant='h3'>
-				<PrimaryBox component='span'> Sign up</PrimaryBox>
-			</Typography>
+			<Button onClick={signInWithMicrosoft}>microtork</Button>
 		</>
 	)
 }
@@ -38,15 +84,7 @@ export const UserDataModal: FC<{ open: boolean }> = ({ open }) => {
 	return (
 		<Fade in={open}>
 			<StyledCard>
-				<CardContent>
-					{isSignedIn ? (
-						<UserDataPage />
-					) : isSignUp ? (
-						<SignUpForm></SignUpForm>
-					) : (
-						<SignInForm></SignInForm>
-					)}
-				</CardContent>
+				<CardContent>{isSignedIn ? <UserDataPage /> : <OAuth />}</CardContent>
 			</StyledCard>
 		</Fade>
 	)
