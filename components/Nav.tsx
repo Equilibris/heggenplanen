@@ -158,11 +158,12 @@ export const Nav = () => {
 								Mørkt
 							</MenuItem>
 						</NestedMenuItem>
-						<Divider />
 					</Menu>
 					<UserSelectorSection />
 					<Spacer>
-						<Button onClick={handleModalOpen} color='inherit'>Logg Inn</Button>
+						<Button onClick={handleModalOpen} color='inherit'>
+							Logg Inn
+						</Button>
 					</Spacer>
 				</Toolbar>
 			</AppBar>
@@ -179,8 +180,6 @@ export const Nav = () => {
 		</>
 	)
 }
-
-
 
 const Spacer = styled.div`
 	margin-left: 20px;
