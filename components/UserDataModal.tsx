@@ -27,20 +27,21 @@ import Button from '@mui/material/Button'
 // 		</>
 // 	)
 // }
-const provider = new OAuthProvider('google.com')
-const auth = getAuth()
-
-provider.setCustomParameters({
-	prompt: 'consent',
-	login_hint: 'navn@elev.tffk.no',
-})
-provider.setDefaultLanguage('no-nb')
 
 // microsoft.addScope('mail.read')
 // microsoft.addScope('calendars.read')
 
 const OAuth = () => {
 	const signInWithMicrosoft = useCallback(() => {
+		const provider = new OAuthProvider('google.com')
+		const auth = getAuth()
+
+		provider.setCustomParameters({
+			prompt: 'consent',
+			login_hint: 'navn@elev.tffk.no',
+		})
+		provider.setDefaultLanguage('no-nb')
+
 		signInWithPopup(auth, provider)
 			.then((result) => {
 				// User is signed in.
