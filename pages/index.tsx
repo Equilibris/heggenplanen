@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -8,9 +8,16 @@ import { Class } from 'components/Cards/Class'
 import { Study } from 'components/Cards/Study'
 import Head from 'next/head'
 import { useWeekData } from 'context/data'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useSwipeable } from 'react-swipeable'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
+
+	const isMobile = useMediaQuery('(max-width:480px')
+
+	return HomeMobile()
 
 	return (
 		<>
@@ -45,6 +52,85 @@ const Home: NextPage = () => {
 					))}
 				</Stack>
 			</MainContainer>
+		</>
+	)
+}
+
+const HomeMobile: NextPage = () => {
+	const [weekData] = useWeekData()
+	const [day, setDay] = useState(0)
+
+	const daySwipeHandlers = useSwipeable({
+		onSwipedRight: (eventData) => {
+			if (day > 0) {
+				setDay(day - 1)
+			}
+		},
+		onSwipedLeft: (eventData) => {
+			if (day < 4) {
+				setDay(day + 1)
+			}
+		},
+	})
+
+	return (
+		<>
+			<MainContainer {...daySwipeHandlers}>
+				<Stack key={day} spacing={2} width={{ xl: 250, l: 200 }}>
+					<StyledTypography variant='h3' sx={{ textAlign: 'center' }}>
+						{transformDay(day)}
+					</StyledTypography>
+					{weekData[day].map((value, i) => (
+						<React.Fragment key={i}>
+							{value ? (
+								value.type === 'class' ? (
+									<Class {...value} />
+								) : (
+									<Study />
+								)
+							) : (
+								<Study />
+							)}
+						</React.Fragment>
+					))}
+				</Stack>
+			</MainContainer>
+
+			{/* <motion.div
+				style={{
+					position: 'relative',
+					width: 44,
+					height: 44,
+					float: 'left',
+					margin: 8,
+				}}>
+				<motion.div
+					style={{
+						background: '#FFD675',
+						height: 200,
+						width: 200,
+						borderRadius: 25,
+						position: 'absolute',
+						// WebkitBackfaceVisibility: "hidden"
+					}}
+					initial={{ rotateY: 0 }}
+					animate={{ rotateY: -90 }}
+					transition={{ duration: 0.5, ease: 'easeIn' }}
+				/>
+				<motion.div
+					style={{
+						background: '#19D2A7',
+						height: 200,
+						width: 200,
+						borderRadius: 25,
+						position: 'absolute',
+						// WebkitBackfaceVisibility: "hidden"
+					}}
+					initial={{ rotateY: 90 }}
+					animate={{ rotateY: 0 }}
+					transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
+				/>
+			</motion.div> */}
 		</>
 	)
 }
