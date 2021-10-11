@@ -21,6 +21,17 @@ export const Study = () => {
 }
 
 const StudyCard = styled(Card)`
+	opacity: 0;
+
+	transition: 0.5s;
+	transition-delay: 0.75s;
+
+	&:hover {
+		transition-delay: 0s;
+
+		opacity: 1;
+	}
+
 	color: ${({ theme }) => theme.palette.text.disabled};
 
 	${cardStyles}
