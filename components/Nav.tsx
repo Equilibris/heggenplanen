@@ -29,6 +29,7 @@ import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import Backdrop from '@mui/material/Backdrop'
 import { UserDataModal } from './UserDataModal'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const UserSelectorSection: FC = () => {
 	const [user] = useUser()
@@ -161,9 +162,13 @@ export const Nav = () => {
 					</Menu>
 					<UserSelectorSection />
 					<Spacer>
-						<Button onClick={handleModalOpen} color='inherit'>
-							Logg Inn
-						</Button>
+						{user.type === 'Identified' ? (
+							<AccountCircleIcon />
+						) : (
+							<Button onClick={handleModalOpen} color='inherit'>
+								Logg Inn
+							</Button>
+						)}
 					</Spacer>
 				</Toolbar>
 			</AppBar>
