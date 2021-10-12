@@ -11,6 +11,9 @@ import { useWeekData } from 'context/data'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useSwipeable } from 'react-swipeable'
 import { AnimatePresence, motion } from 'framer-motion'
+import IconButton from '@mui/material/IconButton'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
@@ -25,7 +28,18 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Timeplan</title>
 			</Head>
+
 			<MainContainer>
+				<WeekControl>
+					<IconButton>
+						<KeyboardArrowLeftIcon />
+					</IconButton>
+					<Typography variant='h5'>Uke 41</Typography>
+					<IconButton>
+						<KeyboardArrowRightIcon />
+					</IconButton>
+				</WeekControl>
+				<br />
 				<Stack
 					spacing={2}
 					direction='row'
@@ -140,10 +154,16 @@ const StyledTypography = styled(Typography)`
 	color: ${({ theme }) => theme.palette.text.primary};
 `
 
-const MainContainer = styled.div`
+const WeekControl = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: center;
+`
+
+const MainContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 	min-height: calc(100vh - 12rem);
 	width: 100vw;
 	padding-block-start: 6rem;
