@@ -32,6 +32,8 @@ import Button from '@mui/material/Button'
 // microsoft.addScope('calendars.read')
 
 const OAuth = () => {
+	const [user, setUser] = useUser()
+
 	const signInWithMicrosoft = useCallback(() => {
 		const provider = new OAuthProvider('google.com')
 		const auth = getAuth()
@@ -48,15 +50,27 @@ const OAuth = () => {
 				// IdP data available in result.additionalUserInfo.profile.
 
 				// Get the OAuth access token and ID Token
-				const credential = OAuthProvider.credentialFromResult(result)
-				if (credential) {
-					const accessToken = credential.accessToken
-					const idToken = credential.idToken
 
-					console.log(credential)
-				} else {
-					console.log({ credential })
+				const credential = OAuthProvider.credentialFromResult(result)
+
+				if (user.type !== null) {
+					setUser({
+						...user,
+						type: 'Identified',
+						uid: result.user.uid,
+						// credential: credential?.toJSON ? credential.toJSON() : null,
+						credential: null,
+					})
 				}
+
+				// if (credential) {
+				// 	const accessToken = credential.accessToken
+				// 	const idToken = credential.idToken
+
+				// 	console.log(credential)
+				// } else {
+				// 	console.log({ credential })
+				// }
 			})
 			.catch((error) => {
 				// Handle error.
