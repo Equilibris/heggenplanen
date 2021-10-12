@@ -2,8 +2,17 @@ import {
 	ThemeProvider as MuiThemeProvider,
 	createTheme,
 	Theme,
+	Components,
 } from '@mui/material/styles'
 import React, { FC } from 'react'
+
+const components: Components = {
+	MuiAccordion: {
+		defaultProps: {
+			disableGutters: true,
+		},
+	},
+}
 
 export const blueTheme = createTheme({
 	palette: {
@@ -24,7 +33,7 @@ export const blueTheme = createTheme({
 			disabled: '#00000061',
 		},
 	},
-	components: {},
+	components,
 })
 
 export const purpleTheme = createTheme({
@@ -46,7 +55,7 @@ export const purpleTheme = createTheme({
 			disabled: '#00000061',
 		},
 	},
-	components: {},
+	components,
 })
 
 export const darkTheme = createTheme({
@@ -68,5 +77,5 @@ export const darkTheme = createTheme({
 			disabled: '#BCB3A7',
 		},
 	},
-	components: {},
+	components,
 })

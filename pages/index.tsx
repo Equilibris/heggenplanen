@@ -1,190 +1,138 @@
-import Button from '@mui/material/Button'
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import Stack from '@mui/material/Stack'
-import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import Box from '@mui/material/Box'
-import { DataBlock, Day, WeekBlock } from 'typings/data'
 import { transformDay } from 'internationalization/transformDay'
 import { Class } from 'components/Cards/Class'
 import { Study } from 'components/Cards/Study'
-import { Assignment } from 'components/Cards/Assignment'
-
-const mockData: WeekBlock = {
-	monday: [
-		{
-			type: 'study',
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Engelsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Matematikk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Geografi',
-			homework: [],
-		},
-	],
-	tuesday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Norsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Samfunnskunnskap',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Kroppsøving',
-			homework: [],
-		},
-	],
-	wednesday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Språk',
-			homework: [
-				{
-					id: '1',
-					done: false,
-					name: 'idk',
-				},
-				{
-					id: '3',
-					done: false,
-					name: 'idk',
-				},
-
-				{
-					id: '1',
-					done: false,
-					name: 'idk',
-				},
-				{
-					id: '3',
-					done: false,
-					name: 'idk',
-				},
-			],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Samfunnskunnskap',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Naturfag',
-			homework: [],
-		},
-		{
-			type: 'assignment',
-			name: 'random innlevering',
-			message: 'just do something idc',
-			gradingMethod: 'numeric',
-			due: new Date(),
-		},
-	],
-	thursday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Naturfag',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Språk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Norsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Matematikk',
-			homework: [],
-		},
-	],
-	friday: [
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Naturfag',
-			homework: [],
-		},
-		{
-			type: 'study',
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Norsk',
-			homework: [],
-		},
-		{
-			type: 'class',
-			roomIdentifier: 'R000',
-			className: 'Engelsk',
-			homework: [],
-		},
-	],
-}
+import Head from 'next/head'
+import { useWeekData } from 'context/data'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useSwipeable } from 'react-swipeable'
+import { AnimatePresence, motion } from 'framer-motion'
 
 const Home: NextPage = () => {
+	const [weekData] = useWeekData()
+
+	const isMobile = useMediaQuery('(max-width:480px')
+	if (isMobile) {
+		return <HomeMobile />
+	}
+
 	return (
-		<MainContainer>
-			<Stack spacing={2} direction='row'>
-				{Object.keys(mockData).map((key) => (
-					<Stack key={key} spacing={2} width={300}>
-						<StyledTypography variant='h3'>
-							{transformDay(key as Day)}
-						</StyledTypography>
-						{(mockData[key as keyof WeekBlock] as DataBlock[]).map(
-							(value, i) => (
+		<>
+			<Head>
+				<title>Timeplan</title>
+			</Head>
+			<MainContainer>
+				<Stack
+					spacing={2}
+					direction='row'
+					flexWrap='wrap'
+					justifyContent='center'>
+					{weekData.map((value, key) => (
+						<Stack key={key} spacing={2} width={{ xl: 250, l: 200 }}>
+							<StyledTypography variant='h3'>
+								{transformDay(key)}
+							</StyledTypography>
+							{value.map((value, i) => (
 								<React.Fragment key={i}>
-									{value.type === 'class' ? (
-										<Class {...value} />
-									) : value.type === 'assignment' ? (
-										<Assignment {...value} />
+									{value ? (
+										value.type === 'class' ? (
+											<Class {...value} />
+										) : (
+											<Study />
+										)
 									) : (
 										<Study />
 									)}
 								</React.Fragment>
-							),
-						)}
-					</Stack>
-				))}
-			</Stack>
-		</MainContainer>
+							))}
+						</Stack>
+					))}
+				</Stack>
+			</MainContainer>
+		</>
+	)
+}
+
+const HomeMobile = () => {
+	const [weekData] = useWeekData()
+	const [day, setDay] = useState(0)
+
+	const daySwipeHandlers = useSwipeable({
+		onSwipedRight: (eventData) => {
+			if (day > 0) {
+				setDay(day - 1)
+			}
+		},
+		onSwipedLeft: (eventData) => {
+			if (day < 4) {
+				setDay(day + 1)
+			}
+		},
+	})
+
+	return (
+		<>
+			<MainContainer {...daySwipeHandlers}>
+				<Stack key={day} spacing={2} width={{ xl: 250, l: 200 }}>
+					<StyledTypography variant='h3' sx={{ textAlign: 'center' }}>
+						{transformDay(day)}
+					</StyledTypography>
+					{weekData[day].map((value, i) => (
+						<React.Fragment key={i}>
+							{value ? (
+								value.type === 'class' ? (
+									<Class {...value} />
+								) : (
+									<Study />
+								)
+							) : (
+								<Study />
+							)}
+						</React.Fragment>
+					))}
+				</Stack>
+			</MainContainer>
+
+			{/* <motion.div
+				style={{
+					position: 'relative',
+					width: 44,
+					height: 44,
+					float: 'left',
+					margin: 8,
+				}}>
+				<motion.div
+					style={{
+						background: '#FFD675',
+						height: 200,
+						width: 200,
+						borderRadius: 25,
+						position: 'absolute',
+						// WebkitBackfaceVisibility: "hidden"
+					}}
+					initial={{ rotateY: 0 }}
+					animate={{ rotateY: -90 }}
+					transition={{ duration: 0.5, ease: 'easeIn' }}
+				/>
+				<motion.div
+					style={{
+						background: '#19D2A7',
+						height: 200,
+						width: 200,
+						borderRadius: 25,
+						position: 'absolute',
+						// WebkitBackfaceVisibility: "hidden"
+					}}
+					initial={{ rotateY: 90 }}
+					animate={{ rotateY: 0 }}
+					transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
+				/>
+			</motion.div> */}
+		</>
 	)
 }
 

@@ -4,14 +4,22 @@ import { Nav } from 'components/Nav'
 import { UserProvider } from 'context/user'
 import React, { FC } from 'react'
 import { ThemeProvider } from 'context/theme'
+import { AssignmentDataProvider, WeekDataProvider } from 'context/data'
+import { init } from 'config/firebase'
 
-function MyApp({ Component, pageProps }: AppProps) {
+if (typeof window !== 'undefined') init()
+
+const MyApp = ({ Component, pageProps }: AppProps) => {
 	return (
 		<UserProvider>
-			<ThemeProvider>
-				<Nav />
-				<Component {...pageProps} />
-			</ThemeProvider>
+			<AssignmentDataProvider>
+				<WeekDataProvider>
+					<ThemeProvider>
+						<Nav />
+						<Component {...pageProps} />
+					</ThemeProvider>
+				</WeekDataProvider>
+			</AssignmentDataProvider>
 		</UserProvider>
 	)
 }
