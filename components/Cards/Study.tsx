@@ -1,10 +1,9 @@
 import styled from '@emotion/styled'
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import React from 'react'
-import { cardStyles } from 'styles/card'
+import { StyledCard } from 'styles/card'
 
 export const Study = () => {
 	return (
@@ -20,7 +19,7 @@ export const Study = () => {
 	)
 }
 
-const StudyCard = styled(Card)`
+const StudyCard = styled(StyledCard)`
 	opacity: 0;
 
 	transition: 0.5s;
@@ -33,6 +32,4 @@ const StudyCard = styled(Card)`
 	}
 
 	color: ${({ theme }) => theme.palette.text.disabled};
-
-	${cardStyles}
 `

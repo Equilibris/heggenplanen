@@ -29,7 +29,7 @@ export const HomeworkByValue: FC<HomeworkBlock & { id: string }> = ({
 							{props.name}
 						</Box>
 						<br />
-						<Box component='span'>Gjøremål</Box>
+						<Box component='span'>{props.message}</Box>
 					</Typography>
 					<div>
 						<StyledCheckBox

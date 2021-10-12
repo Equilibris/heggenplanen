@@ -1,11 +1,6 @@
-import { css } from '@emotion/react'
-import Accordion from '@mui/material/Accordion'
+import Card from '@mui/material/Card'
 import { styled } from '@mui/system'
 
-export const cardStyles = css`
-	min-height: 7.5rem;
-`
-
-export const CardStyledAccordion = styled(Accordion)`
-	${cardStyles}
+export const StyledCard = styled(Card)`
+	min-height: 9.5rem;
 `
