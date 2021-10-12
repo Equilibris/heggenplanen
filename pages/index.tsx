@@ -16,8 +16,9 @@ const Home: NextPage = () => {
 	const [weekData] = useWeekData()
 
 	const isMobile = useMediaQuery('(max-width:480px')
-
-	return HomeMobile()
+	if (isMobile) {
+		return <HomeMobile />
+	}
 
 	return (
 		<>
@@ -56,7 +57,7 @@ const Home: NextPage = () => {
 	)
 }
 
-const HomeMobile: NextPage = () => {
+const HomeMobile = () => {
 	const [weekData] = useWeekData()
 	const [day, setDay] = useState(0)
 
