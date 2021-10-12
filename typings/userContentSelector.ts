@@ -90,8 +90,38 @@ export namespace BlockData {
 		| 'Samfunnsøkonomi 2'
 		| 'Sosialkunnskap'
 		| null
-	export type DBlockData = null
-	export type EBlockData = null
+	export type DBlockData =
+		| 'Kjemi 1'
+		| 'Historie og filosofi 1'
+		| 'Kommunikasjon og kultur'
+		| 'Samfunnsøkonomi 1'
+		| 'Toppidrett 1'
+		| 'Biologi 2'
+		| 'Markedsføring og ledelse 2'
+		| 'Spansk 1+2'
+		| 'Tysk 1+2'
+		| 'Spansk 3'
+		| 'Toppidrett 2'
+		| 'Musikk fordypning 2'
+		| 'Teaterproduksjon og fordypning 2'
+		| 'Kjemi 2'
+		| null
+	export type EBlockData =
+		| 'R1'
+		| 'S1'
+		| 'Fysikk 1'
+		| 'Engelsk 1'
+		| 'Entreprenørskap og bedriftsutvikling 1'
+		| 'Sosiologi og sosialantropologi'
+		| 'Psykologi 1'
+		| 'R2'
+		| 'S2'
+		| 'Kjemi 2'
+		| 'Geofag 2'
+		| 'Engelsk litteratur og kultur'
+		| 'Økonomi og ledelse'
+		| 'Psykologi 2'
+		| null
 }
 
 export const isMd = (v: UserContentSelector): v is Md =>
