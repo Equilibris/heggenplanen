@@ -1,3 +1,5 @@
+export type Grade = 1 | 2 | 3
+
 export type Language1 =
 	| 'German1'
 	| 'German2'
@@ -38,7 +40,7 @@ export const languageX: LanguageX[] = [
 	null,
 ]
 
-export type StClassFactory<T extends 1 | 2 | 3> =
+export type StClassFactory<T extends Grade> =
 	| `${T}STA`
 	| `${T}STB`
 	| `${T}STC`
@@ -46,9 +48,7 @@ export type StClassFactory<T extends 1 | 2 | 3> =
 	| `${T}STE`
 	| `${T}STF`
 
-export const stClassFactory = <T extends 1 | 2 | 3>(
-	v: T,
-): StClassFactory<T>[] => [
+export const stClassFactory = <T extends Grade>(v: T): StClassFactory<T>[] => [
 	`${v}STA`,
 	`${v}STB`,
 	`${v}STC`,
@@ -62,8 +62,11 @@ export type MdClass = 'MD1' | 'MD2' | 'MD3'
 export const mdClass: MdClass[] = ['MD1', 'MD2', 'MD3']
 
 export namespace BlockData {
-	export type ABlockData = 'P2' | null
-	export type BBlockData =
+	export type _ABlockData = 'P2'
+	export type ABlockData = `A/${_ABlockData}` | null
+	export const aBlockData: ABlockData[] = ['A/P2', null]
+
+	export type _BBlockData =
 		| 'R1'
 		| 'S1'
 		| 'Fysikk 1'
@@ -77,8 +80,25 @@ export namespace BlockData {
 		| 'Poilitikk og menneskerettigheter'
 		| 'Entreprenørskap og bedriftsutvikling 2'
 		| 'Rettslære 2'
-		| null
-	export type CBlockData =
+	export type BBlockData = `B/${_BBlockData}` | null
+	export const bBlockData: BBlockData[] = [
+		'B/R1',
+		'B/S1',
+		'B/Fysikk 1',
+		'B/Geofag 1',
+		'B/Engelsk 1',
+		'B/Økonomistyring',
+		'B/Samfunns-geografi',
+		'B/R2',
+		'B/S2',
+		'B/IT2',
+		'B/Poilitikk og menneskerettigheter',
+		'B/Entreprenørskap og bedriftsutvikling 2',
+		'B/Rettslære 2',
+		null,
+	]
+
+	export type _CBlockData =
 		| 'IT1'
 		| 'Kjemi 1'
 		| 'Biologi 1'
@@ -89,8 +109,22 @@ export namespace BlockData {
 		| 'Samfunnsfaglig engelsk'
 		| 'Samfunnsøkonomi 2'
 		| 'Sosialkunnskap'
-		| null
-	export type DBlockData =
+	export type CBlockData = `C/${_CBlockData}` | null
+	export const cBlockData: CBlockData[] = [
+		'C/IT1',
+		'C/Kjemi 1',
+		'C/Biologi 1',
+		'C/Markedsføring og ledelse 1',
+		'C/Rettslære 1',
+		'C/Sosiologi og sosialantropologi',
+		'C/Fysikk 2',
+		'C/Samfunnsfaglig engelsk',
+		'C/Samfunnsøkonomi 2',
+		'C/Sosialkunnskap',
+		null,
+	]
+
+	export type _DBlockData =
 		| 'Kjemi 1'
 		| 'Historie og filosofi 1'
 		| 'Kommunikasjon og kultur'
@@ -105,8 +139,26 @@ export namespace BlockData {
 		| 'Musikk fordypning 2'
 		| 'Teaterproduksjon og fordypning 2'
 		| 'Kjemi 2'
-		| null
-	export type EBlockData =
+	export type DBlockData = `D/${_DBlockData}` | null
+	export const dDataBlock: DBlockData[] = [
+		'D/Kjemi 1',
+		'D/Historie og filosofi 1',
+		'D/Kommunikasjon og kultur',
+		'D/Samfunnsøkonomi 1',
+		'D/Toppidrett 1',
+		'D/Biologi 2',
+		'D/Markedsføring og ledelse 2',
+		'D/Spansk 1+2',
+		'D/Tysk 1+2',
+		'D/Spansk 3',
+		'D/Toppidrett 2',
+		'D/Musikk fordypning 2',
+		'D/Teaterproduksjon og fordypning 2',
+		'D/Kjemi 2',
+		null,
+	]
+
+	export type _EBlockData =
 		| 'R1'
 		| 'S1'
 		| 'Fysikk 1'
@@ -121,20 +173,52 @@ export namespace BlockData {
 		| 'Engelsk litteratur og kultur'
 		| 'Økonomi og ledelse'
 		| 'Psykologi 2'
+	export type EBlockData = `E/${_EBlockData}` | null
+	export const eBlockData: EBlockData[] = [
+		'E/R1',
+		'E/S1',
+		'E/Fysikk 1',
+		'E/Engelsk 1',
+		'E/Entreprenørskap og bedriftsutvikling 1',
+		'E/Sosiologi og sosialantropologi',
+		'E/Psykologi 1',
+		'E/R2',
+		'E/S2',
+		'E/Kjemi 2',
+		'E/Geofag 2',
+		'E/Engelsk litteratur og kultur',
+		'E/Økonomi og ledelse',
+		'E/Psykologi 2',
+		null,
+	]
+
+	export type Program =
+		| ABlockData
+		| BBlockData
+		| CBlockData
+		| DBlockData
+		| EBlockData
 		| null
 }
 
 export const isMd = (v: UserContentSelector): v is Md =>
 	v.class.startsWith('MD')
+export const isMd1 = (v: UserContentSelector): v is Md1 => v.class === 'MD1'
+export const isMdX = (v: UserContentSelector): v is MdX => isMd(v) && !isMd1(v)
 
 export const isSt1 = (v: UserContentSelector): v is St1 => v.class[0] === '1'
-
 export const isStX = (v: UserContentSelector): v is StX => !isMd(v) && !isSt1(v)
 
-export type Md = {
-	class: MdClass
+export type Md1 = {
+	class: 'MD1'
 	language: Language1
 }
+export type MdX = {
+	class: 'MD2' | 'MD3'
+	language: LanguageX
+}
+
+export type Md = Md1 | MdX
 
 export type St1 = {
 	class: StClassFactory<1>
@@ -154,11 +238,14 @@ export type StX = {
 
 export type UserContentSelector = Md | St1 | StX
 
-export const classTopicKeyGenerator = (_class: string) =>
-	`topic.class(${_class})`
-export const languageTopicKeyGenerator = (language: string | null) =>
-	language === null ? null : `topic.language(${language})`
-export const programTopicKeyGenerator = (program: string | null) =>
-	program === null
-		? null
-		: `topic.program(${program.toLocaleLowerCase().replace(/\s+/g, '-')})`
+export const extractGrade = (_class: UserContentSelector['class']): Grade =>
+	_class.indexOf('1') > -1 ? 1 : _class.indexOf('2') > -1 ? 2 : 3
+
+const process = (str: string) => str.toLocaleLowerCase().replace(/\s+/g, '-')
+
+export const classTopicKeyGenerator = (_class: UserContentSelector['class']) =>
+	`topic.class(${process(_class)})`
+export const languageTopicKeyGenerator = (language: LanguageX, grade: Grade) =>
+	language && `topic.language(${grade}/${process(language)})`
+export const programTopicKeyGenerator = (program: BlockData.Program) =>
+	program === null ? null : `topic.program(${process(program)})`
