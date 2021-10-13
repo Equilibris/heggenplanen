@@ -57,9 +57,14 @@ export const stClassFactory = <T extends Grade>(v: T): StClassFactory<T>[] => [
 	`${v}STF`,
 ]
 
-export type MdClass = 'MD1' | 'MD2' | 'MD3'
+export type MdClassFactory<T extends Grade> = `MD${T}` | `MDT${T}`
 
-export const mdClass: MdClass[] = ['MD1', 'MD2', 'MD3']
+export const mdClassFactory = <T extends Grade>(v: T): MdClassFactory<T>[] => [
+	`MD${v}`,
+	`MDT${v}`,
+]
+
+export type MdClass = 'MD1' | 'MD2' | 'MD3'
 
 export namespace BlockData {
 	export type _ABlockData = 'P2'
@@ -124,7 +129,25 @@ export namespace BlockData {
 		null,
 	]
 
+	export type _MdDBlockData =
+		| 'Musikk fordypning 2'
+		| 'Teaterproduksjon og fordypning 2'
+		| 'Spansk 1+2'
+		| 'Tysk 1+2'
+		| 'Fransk 1+2'
+
+	export type MdDBlockData = `D/${_MdDBlockData}` | null
+	export const mdDBlockData = [
+		'D/Musikk fordypning 2',
+		'D/Teaterproduksjon og fordypning 2',
+		'D/Spansk 1+2',
+		'D/Tysk 1+2',
+		'D/Fransk 1+2',
+		null,
+	]
+
 	export type _DBlockData =
+		| _MdDBlockData
 		| 'Kjemi 1'
 		| 'Historie og filosofi 1'
 		| 'Kommunikasjon og kultur'
@@ -132,12 +155,8 @@ export namespace BlockData {
 		| 'Toppidrett 1'
 		| 'Biologi 2'
 		| 'Markedsføring og ledelse 2'
-		| 'Spansk 1+2'
-		| 'Tysk 1+2'
 		| 'Spansk 3'
 		| 'Toppidrett 2'
-		| 'Musikk fordypning 2'
-		| 'Teaterproduksjon og fordypning 2'
 		| 'Kjemi 2'
 	export type DBlockData = `D/${_DBlockData}` | null
 	export const dDataBlock: DBlockData[] = [
@@ -203,22 +222,24 @@ export namespace BlockData {
 
 export const isMd = (v: UserContentSelector): v is Md =>
 	v.class.startsWith('MD')
-export const isMd1 = (v: UserContentSelector): v is Md1 => v.class === 'MD1'
-export const isMdX = (v: UserContentSelector): v is MdX => isMd(v) && !isMd1(v)
+export const isMd3 = (v: UserContentSelector): v is Md3 => v.class[2] === '3'
+export const isMdX = (v: UserContentSelector): v is MdX => isMd(v) && !isMd3(v)
 
 export const isSt1 = (v: UserContentSelector): v is St1 => v.class[0] === '1'
 export const isStX = (v: UserContentSelector): v is StX => !isMd(v) && !isSt1(v)
 
-export type Md1 = {
-	class: 'MD1'
+export type MdX = {
+	class: MdClassFactory<1> | MdClassFactory<2>
 	language: Language1
 }
-export type MdX = {
-	class: 'MD2' | 'MD3'
+export type Md3 = {
+	class: MdClassFactory<3>
 	language: LanguageX
+
+	d: BlockData.MdDBlockData
 }
 
-export type Md = Md1 | MdX
+export type Md = MdX | Md3
 
 export type St1 = {
 	class: StClassFactory<1>

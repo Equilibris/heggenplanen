@@ -23,6 +23,7 @@ import {
 	UserContentSelector,
 	mdClass,
 	stClassFactory,
+	mdClassFactory,
 } from 'typings/userContentSelector'
 import { useRouter } from 'next/router'
 import Modal from '@mui/material/Modal'
@@ -42,7 +43,9 @@ const UserSelectorSection: FC = () => {
 
 	const options = useMemo(
 		() => [
-			...mdClass,
+			...mdClassFactory(1),
+			...mdClassFactory(2),
+			...mdClassFactory(3),
 			...stClassFactory(1),
 			...stClassFactory(2),
 			...stClassFactory(3),
