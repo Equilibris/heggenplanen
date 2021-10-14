@@ -6,21 +6,27 @@ import React, { FC } from 'react'
 import { ThemeProvider } from 'context/theme'
 import { AssignmentDataProvider, WeekDataProvider } from 'context/data'
 import { init } from 'config/firebase'
+import { LoadingProvider } from 'context/loading'
+import { CurrentWeekProvider } from 'context/currentWeek'
 
 if (typeof window !== 'undefined') init()
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
 	return (
-		<UserProvider>
-			<AssignmentDataProvider>
+		<CurrentWeekProvider>
+			<LoadingProvider>
 				<WeekDataProvider>
-					<ThemeProvider>
-						<Nav />
-						<Component {...pageProps} />
-					</ThemeProvider>
+					<UserProvider>
+						<AssignmentDataProvider>
+							<ThemeProvider>
+								<Nav />
+								<Component {...pageProps} />
+							</ThemeProvider>
+						</AssignmentDataProvider>
+					</UserProvider>
 				</WeekDataProvider>
-			</AssignmentDataProvider>
-		</UserProvider>
+			</LoadingProvider>
+		</CurrentWeekProvider>
 	)
 }
 export default MyApp

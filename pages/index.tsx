@@ -10,12 +10,31 @@ import Head from 'next/head'
 import { useWeekData } from 'context/data'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useSwipeable } from 'react-swipeable'
-import { AnimatePresence, motion } from 'framer-motion'
+import IconButton from '@mui/material/IconButton'
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import { useLoading } from 'context/loading'
+import { useCurrentWeek } from 'context/currentWeek'
+import { useDebounce } from 'react-use'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
 
+	const [loading, setLoading] = useLoading()
+	const [viewingCurrentWeek, setViewingCurrentWeek] = useCurrentWeek()
+
+	const [currentWeek, setCurrentWeek] = useState(viewingCurrentWeek)
+
+	useDebounce(
+		() => {
+			setViewingCurrentWeek(currentWeek)
+		},
+		500,
+		[currentWeek],
+	)
+
 	const isMobile = useMediaQuery('(max-width:480px')
+
 	if (isMobile) {
 		return <HomeMobile />
 	}
@@ -25,8 +44,29 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Timeplan</title>
 			</Head>
+
 			<MainContainer>
+				<WeekControl>
+					<IconButton
+						onClick={() => {
+							setCurrentWeek(currentWeek - 1)
+							if (!loading) setLoading(true)
+						}}>
+						<KeyboardArrowLeftIcon />
+					</IconButton>
+					<Typography variant='h5'>Uke {currentWeek}</Typography>
+					<IconButton
+						onClick={() => {
+							setCurrentWeek(currentWeek + 1)
+							if (!loading) setLoading(true)
+						}}>
+						<KeyboardArrowRightIcon />
+					</IconButton>
+				</WeekControl>
+				<br />
+
 				<Stack
+					style={{ opacity: (2 - +loading) / 2 }}
 					spacing={2}
 					direction='row'
 					flexWrap='wrap'
@@ -96,42 +136,6 @@ const HomeMobile = () => {
 					))}
 				</Stack>
 			</MainContainer>
-
-			{/* <motion.div
-				style={{
-					position: 'relative',
-					width: 44,
-					height: 44,
-					float: 'left',
-					margin: 8,
-				}}>
-				<motion.div
-					style={{
-						background: '#FFD675',
-						height: 200,
-						width: 200,
-						borderRadius: 25,
-						position: 'absolute',
-						// WebkitBackfaceVisibility: "hidden"
-					}}
-					initial={{ rotateY: 0 }}
-					animate={{ rotateY: -90 }}
-					transition={{ duration: 0.5, ease: 'easeIn' }}
-				/>
-				<motion.div
-					style={{
-						background: '#19D2A7',
-						height: 200,
-						width: 200,
-						borderRadius: 25,
-						position: 'absolute',
-						// WebkitBackfaceVisibility: "hidden"
-					}}
-					initial={{ rotateY: 90 }}
-					animate={{ rotateY: 0 }}
-					transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
-				/>
-			</motion.div> */}
 		</>
 	)
 }
@@ -140,10 +144,18 @@ const StyledTypography = styled(Typography)`
 	color: ${({ theme }) => theme.palette.text.primary};
 `
 
-const MainContainer = styled.div`
+const WeekControl = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: center;
+`
+
+const MainContainer = styled.div`
+	transition: ${({ theme }) => theme.transitions.create('opacity')};
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
 	min-height: calc(100vh - 12rem);
 	width: 100vw;
 	padding-block-start: 6rem;
