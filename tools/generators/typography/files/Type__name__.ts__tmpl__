@@ -1,0 +1,20 @@
+import styled from '@emotion/styled';
+import { css, FunctionInterpolation, Theme } from '@emotion/react';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+
+/* eslint-disable-next-line */
+export interface Type<%= name %>Props {}
+
+export const type<%= name %>Css: FunctionInterpolation<
+	Type<%= name %>Props & { theme: Theme }
+> = ({ theme }) => css`
+	font-weight: bold;
+`;
+
+export const Type<%= name %> = styled(Typography)<Type<%= name %>Props>`
+	${type<%= name %>Css}
+`;
+export const Type<%= name %>Box = styled(Box)<Type<%= name %>Props>`
+	${type<%= name %>Css}
+`;

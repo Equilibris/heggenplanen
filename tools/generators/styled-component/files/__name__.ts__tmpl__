@@ -1,0 +1,15 @@
+<% if(mui) { %>
+import <%= component %> from '@mui/material/<%= component %>';
+<% } %>
+import styled from '@emotion/styled';
+
+/* eslint-disable-next-line */
+export interface <%= name %>Props {}
+<% if(mui) { %>
+export const <%= name %> = styled(<%= component %>)<<%= name %>Props>`
+<% } else { %>
+export const <%= name %> = styled.<%= component %><<%= name %>Props>`
+<% } %>
+	color: ${({theme})=>theme.palette.primary.main};
+`
+

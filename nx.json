@@ -1,0 +1,63 @@
+{
+	"npmScope": "heggenplanen",
+	"affected": {
+		"defaultBase": "master"
+	},
+	"implicitDependencies": {
+		"package.json": {
+			"dependencies": "*",
+			"devDependencies": "*"
+		},
+		".eslintrc.json": "*"
+	},
+	"tasksRunnerOptions": {
+		"default": {
+			"runner": "@nrwl/nx-cloud",
+			"options": {
+				"cacheableOperations": ["build", "lint", "test", "e2e"],
+				"accessToken": "YzZhODJmMDYtNTY4MS00MTJmLTg4MTctZWUxYmE3ZTliYzBkfHJlYWQtd3JpdGU="
+			}
+		}
+	},
+	"targetDependencies": {
+		"build": [
+			{
+				"target": "build",
+				"projects": "dependencies"
+			}
+		]
+	},
+	"projects": {
+		"components": {
+			"tags": []
+		},
+		"components-style": {
+			"tags": []
+		},
+		"config": {
+			"tags": []
+		},
+		"context": {
+			"tags": []
+		},
+		"hooks": {
+			"tags": []
+		},
+		"typings": {
+			"tags": []
+		},
+		"utils": {
+			"tags": []
+		},
+		"utils-internationalization": {
+			"tags": []
+		},
+		"web": {
+			"tags": []
+		},
+		"web-e2e": {
+			"tags": [],
+			"implicitDependencies": ["web"]
+		}
+	}
+}

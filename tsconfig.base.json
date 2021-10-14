@@ -1,0 +1,34 @@
+{
+	"compileOnSave": false,
+	"compilerOptions": {
+		"rootDir": ".",
+		"sourceMap": true,
+		"downlevelIteration": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es2015",
+		"module": "esnext",
+		"lib": ["es2017", "dom"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@heggenplanen/components": ["libs/components/src/index.ts"],
+			"@heggenplanen/components/style": [
+				"libs/components/style/src/index.ts"
+			],
+			"@heggenplanen/config": ["libs/config/src/index.ts"],
+			"@heggenplanen/context": ["libs/context/src/index.ts"],
+			"@heggenplanen/hooks": ["libs/hooks/src/index.ts"],
+			"@heggenplanen/typings": ["libs/typings/src/index.ts"],
+			"@heggenplanen/utils": ["libs/utils/src/index.ts"],
+			"@heggenplanen/utils/internationalization": [
+				"libs/utils/internationalization/src/index.ts"
+			]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
+}
