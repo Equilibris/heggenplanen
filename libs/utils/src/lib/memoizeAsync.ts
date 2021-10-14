@@ -12,10 +12,10 @@ export const memoizeAsync = <Ret, Args extends any[]>(
 	return (...args: Args): Promise<Ret> => {
 		const lookupValue = keyGen(...args)
 
-		if (memo.hasOwnProperty(lookupValue))
+		if (Object.hasOwnProperty.call(memo, lookupValue))
 			return Promise.resolve(memo[lookupValue])
 
-		if (processQueue.hasOwnProperty(lookupValue))
+		if (Object.hasOwnProperty.call(processQueue, lookupValue))
 			return new Promise<Ret>((resolve, reject) => {
 				processQueue[lookupValue].push([resolve, reject])
 			})
