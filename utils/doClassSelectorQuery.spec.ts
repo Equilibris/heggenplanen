@@ -20,7 +20,11 @@ describe('doClassSelectorQuery', () => {
 		const result = await doClassSelectorQuery(md, 0)
 	})
 	it.skip('Can resolve a simple MDX class', async () => {
-		const md: UserContentSelector = { class: 'MD3', language: 'German3' }
+		const md: UserContentSelector = {
+			class: 'MD3',
+			language: 'German3',
+			d: null,
+		}
 
 		const result = await doClassSelectorQuery(md, 0)
 	})

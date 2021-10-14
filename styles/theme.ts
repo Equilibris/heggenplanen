@@ -16,7 +16,6 @@ const components: Components = {
 
 export const blueTheme = createTheme({
 	palette: {
-		// type: 'dark',
 		primary: {
 			main: '#03A9F4',
 		},
@@ -38,7 +37,6 @@ export const blueTheme = createTheme({
 
 export const purpleTheme = createTheme({
 	palette: {
-		// type: 'dark',
 		primary: {
 			main: '#673AB7',
 		},
@@ -60,7 +58,6 @@ export const purpleTheme = createTheme({
 
 export const darkTheme = createTheme({
 	palette: {
-		// type: 'dark',
 		primary: {
 			main: '#1C1E1F',
 		},

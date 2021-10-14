@@ -9,8 +9,9 @@ import React, {
 	SetStateAction,
 	useMemo,
 	useCallback,
+	useRef,
 } from 'react'
-import { useDebounce } from 'react-use'
+import { useDebounce, usePrevious } from 'react-use'
 import { IdentifiedUser, User } from 'typings/userData'
 import {
 	collection,
@@ -22,6 +23,10 @@ import {
 	onSnapshot,
 } from 'firebase/firestore'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import isEqual from 'lodash/isEqual'
+import { doClassSelectorQuery } from 'utils/doClassSelectorQuery'
+import { useLoading } from './loading'
+import { useWeekData } from './data'
 
 const mockUser: User = {
 	type: null,
@@ -36,7 +41,15 @@ export const useUser = () => useContext(userContext)
 export const UserProvider: FC = ({ children }) => {
 	const [user, setUser] = useState<User>(mockUser)
 
+	const job = useRef<[debounce: NodeJS.Timeout | null, isInitialRun: boolean]>([
+		null,
+		true,
+	])
+
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
+	const [_1, setLoading] = useLoading()
+	const [_2, dispatch] = useWeekData()
 
 	const anonUser: User = useMemo(
 		() => ({
@@ -127,15 +140,44 @@ export const UserProvider: FC = ({ children }) => {
 		[user.type === 'Identified'],
 	)
 
-	useDebounce(
+	useEffect(
 		() => {
-			if (user.type === 'Identified') {
-				performUpdate()
+			if (user.type) {
+				setLoading(true)
+
+				job.current[0] = setTimeout(async () => {
+					setLoading(false)
+
+					dispatch({
+						type: 'overwrite',
+						data: await doClassSelectorQuery(
+							{
+								class: '2STD',
+								language: 'German1',
+								a: null,
+								b: 'B/IT2',
+								c: 'C/IT1',
+								d: 'D/Biologi 2',
+								e: 'E/Fysikk 1',
+							},
+							0,
+						),
+					})
+
+					job.current[1] = false
+				}, 5000 - 4000 * +job.current[1])
+
+				return () => {
+					if (job.current[0] !== null) clearTimeout(job.current[0])
+					job.current[0] = null
+				}
 			}
 		},
-		5 * 1000,
-		[user],
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[user.type && user.selector],
 	)
+
+	useDebounce(() => void performUpdate(), 5000, [user])
 
 	return (
 		<userContext.Provider value={[user, setUser]}>

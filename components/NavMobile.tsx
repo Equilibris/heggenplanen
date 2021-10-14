@@ -71,14 +71,10 @@ export const NavMobile = () => {
 						</DrawerCloseButton>
 						<WideDiv>
 							<List>
-								<StyledListItem
-									component='button'
-									onClick={() => handlePageChange('home')}>
+								<StyledListItem onClick={() => handlePageChange('home')}>
 									<ListItemText primary={'Timeplan'} />
 								</StyledListItem>
-								<StyledListItem
-									component='button'
-									onClick={() => handlePageChange('assignments')}>
+								<StyledListItem onClick={() => handlePageChange('assignments')}>
 									<ListItemText primary={'Innleveringer'} />
 								</StyledListItem>
 								<br />

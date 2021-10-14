@@ -11,9 +11,12 @@ import { useWeekData } from 'context/data'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useSwipeable } from 'react-swipeable'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useLoading } from 'context/loading'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
+
+	const [loading, _] = useLoading()
 
 	const isMobile = useMediaQuery('(max-width:480px')
 	if (isMobile) {
@@ -25,7 +28,7 @@ const Home: NextPage = () => {
 			<Head>
 				<title>Timeplan</title>
 			</Head>
-			<MainContainer>
+			<MainContainer style={{ opacity: (2 - +loading) / 2 }}>
 				<Stack
 					spacing={2}
 					direction='row'
@@ -96,42 +99,6 @@ const HomeMobile = () => {
 					))}
 				</Stack>
 			</MainContainer>
-
-			{/* <motion.div
-				style={{
-					position: 'relative',
-					width: 44,
-					height: 44,
-					float: 'left',
-					margin: 8,
-				}}>
-				<motion.div
-					style={{
-						background: '#FFD675',
-						height: 200,
-						width: 200,
-						borderRadius: 25,
-						position: 'absolute',
-						// WebkitBackfaceVisibility: "hidden"
-					}}
-					initial={{ rotateY: 0 }}
-					animate={{ rotateY: -90 }}
-					transition={{ duration: 0.5, ease: 'easeIn' }}
-				/>
-				<motion.div
-					style={{
-						background: '#19D2A7',
-						height: 200,
-						width: 200,
-						borderRadius: 25,
-						position: 'absolute',
-						// WebkitBackfaceVisibility: "hidden"
-					}}
-					initial={{ rotateY: 90 }}
-					animate={{ rotateY: 0 }}
-					transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
-				/>
-			</motion.div> */}
 		</>
 	)
 }
@@ -141,6 +108,8 @@ const StyledTypography = styled(Typography)`
 `
 
 const MainContainer = styled.div`
+	transition: ${({ theme }) => theme.transitions.create('opacity')};
+
 	display: flex;
 	align-items: center;
 	justify-content: center;
