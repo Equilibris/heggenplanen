@@ -5,6 +5,7 @@ import { AssignmentData } from 'typings/assignmentData'
 import { DataBlock, WeekBlock } from 'typings/timelineData'
 import { Actions as AssignmentActions } from 'react-use/lib/useMap'
 import cloneDeep from 'lodash/cloneDeep'
+import { getInitialWeekData } from 'utils/getInitialWeekData'
 
 const mockAssignmentData: AssignmentData = {
 	'1': { type: 'homework', done: false, name: 'Hello', message: 'Hello' },
@@ -275,7 +276,7 @@ const weekReducer = (state: WeekBlock, action: WeekActions): WeekBlock => {
 }
 
 export const WeekDataProvider: FC = ({ children }) => {
-	const value = useReducer(weekReducer, mockWeekData)
+	const value = useReducer(weekReducer, getInitialWeekData())
 
 	return (
 		<weekDataContext.Provider value={value}>
