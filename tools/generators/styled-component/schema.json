@@ -1,0 +1,37 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"cli": "nx",
+	"$id": "styled-component",
+	"type": "object",
+	"properties": {
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"alias": "p",
+			"$default": {
+				"$source": "projectName"
+			},
+			"x-prompt": "What is the name of the project for this component?"
+		},
+		"name": {
+			"type": "string",
+			"description": "The name of the component.",
+			"$default": {
+				"$source": "argv",
+				"index": 0
+			},
+			"x-prompt": "What name would you like to use for the component?"
+		},
+		"component": {
+			"type": "string",
+			"description": "The name of the parent component.",
+			"x-prompt": "What name would you like to use as the parent component?"
+		},
+		"mui": {
+			"type": "boolean",
+			"description": "Use MUI.",
+			"default": false
+		}
+	},
+	"required": ["name", "project", "component"]
+}

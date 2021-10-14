@@ -1,0 +1,11 @@
+import styled from '@emotion/styled'
+import { NextPage } from 'next'
+
+// eslint-disable-next-line
+interface <%= Name %>Props {}
+
+const <%= Name %>: NextPage<<%= Name %>Props> = () => {
+	return <div></div>
+}
+
+export default <%= Name %>

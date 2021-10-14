@@ -1,0 +1,18 @@
+{
+	"$schema": "http://json-schema.org/schema",
+	"cli": "nx",
+	"$id": "global-ts-injector",
+	"type": "object",
+	"properties": {
+		"project": {
+			"type": "string",
+			"description": "The name of the project.",
+			"alias": "p",
+			"$default": {
+				"$source": "projectName"
+			},
+			"x-prompt": "What is the name of the project for this component?"
+		}
+	},
+	"required": ["project"]
+}

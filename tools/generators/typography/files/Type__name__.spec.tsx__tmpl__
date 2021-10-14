@@ -1,0 +1,15 @@
+import { render } from '@testing-library/react';
+
+import {Type<%= name %>, Type<%= name %>Box} from './Type<%= name %>';
+
+describe('<%= name %>', () => {
+  it('should render successfully typography', () => {
+    const { baseElement } = render(<Type<%= name %> />);
+    expect(baseElement).toBeTruthy();
+  });
+
+  it('should render successfully box', () => {
+    const { baseElement } = render(<Type<%= name %>Box component="span" />);
+    expect(baseElement).toBeTruthy();
+  });
+});
