@@ -17,14 +17,8 @@ export const currentWeekContext = createContext<
 export const useCurrentWeek = () => useContext(currentWeekContext)
 
 export const CurrentWeekProvider: FC = ({ children }) => {
-	const [loading, setLoading] = useState(40)
-
-	useEffect(() => {
-		setLoading(getWeek(new Date()))
-	}, [])
-
 	return (
-		<currentWeekContext.Provider value={[loading, setLoading]}>
+		<currentWeekContext.Provider value={useState(getWeek(new Date()))}>
 			{children}
 		</currentWeekContext.Provider>
 	)
