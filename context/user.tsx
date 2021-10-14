@@ -27,6 +27,7 @@ import isEqual from 'lodash/isEqual'
 import { doClassSelectorQuery } from 'utils/doClassSelectorQuery'
 import { useLoading } from './loading'
 import { useWeekData } from './data'
+import { useCurrentWeek } from './currentWeek'
 
 const mockUser: User = {
 	type: null,
@@ -50,6 +51,7 @@ export const UserProvider: FC = ({ children }) => {
 
 	const [_1, setLoading] = useLoading()
 	const [_2, dispatch] = useWeekData()
+	const [currentWeek] = useCurrentWeek()
 
 	const anonUser: User = useMemo(
 		() => ({
@@ -160,7 +162,7 @@ export const UserProvider: FC = ({ children }) => {
 								d: 'D/Biologi 2',
 								e: 'E/Fysikk 1',
 							},
-							0,
+							currentWeek,
 						),
 					})
 
@@ -174,7 +176,7 @@ export const UserProvider: FC = ({ children }) => {
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[user.type && user.selector],
+		[user.type && user.selector, currentWeek],
 	)
 
 	useDebounce(() => void performUpdate(), 5000, [user])
