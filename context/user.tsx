@@ -167,7 +167,7 @@ export const UserProvider: FC = ({ children }) => {
 					})
 
 					job.current[1] = false
-				}, 5000 - 4000 * +job.current[1])
+				}, 2000 - 1000 * +job.current[1])
 
 				return () => {
 					if (job.current[0] !== null) clearTimeout(job.current[0])

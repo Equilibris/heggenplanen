@@ -10,18 +10,31 @@ import Head from 'next/head'
 import { useWeekData } from 'context/data'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useSwipeable } from 'react-swipeable'
-import { AnimatePresence, motion } from 'framer-motion'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import { useLoading } from 'context/loading'
+import { useCurrentWeek } from 'context/currentWeek'
+import { useDebounce } from 'react-use'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
 
-	const [loading, _] = useLoading()
+	const [loading, setLoading] = useLoading()
+	const [viewingCurrentWeek, setViewingCurrentWeek] = useCurrentWeek()
+
+	const [currentWeek, setCurrentWeek] = useState(viewingCurrentWeek)
+
+	useDebounce(
+		() => {
+			setViewingCurrentWeek(currentWeek)
+		},
+		500,
+		[currentWeek],
+	)
 
 	const isMobile = useMediaQuery('(max-width:480px')
+
 	if (isMobile) {
 		return <HomeMobile />
 	}
@@ -32,19 +45,28 @@ const Home: NextPage = () => {
 				<title>Timeplan</title>
 			</Head>
 
-			<MainContainer style={{ opacity: (2 - +loading) / 2 }}>
+			<MainContainer>
 				<WeekControl>
-					<IconButton>
+					<IconButton
+						onClick={() => {
+							setCurrentWeek(currentWeek - 1)
+							if (!loading) setLoading(true)
+						}}>
 						<KeyboardArrowLeftIcon />
 					</IconButton>
-					<Typography variant='h5'>Uke 41</Typography>
-					<IconButton>
+					<Typography variant='h5'>Uke {currentWeek}</Typography>
+					<IconButton
+						onClick={() => {
+							setCurrentWeek(currentWeek + 1)
+							if (!loading) setLoading(true)
+						}}>
 						<KeyboardArrowRightIcon />
 					</IconButton>
 				</WeekControl>
 				<br />
 
 				<Stack
+					style={{ opacity: (2 - +loading) / 2 }}
 					spacing={2}
 					direction='row'
 					flexWrap='wrap'
