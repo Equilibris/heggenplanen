@@ -55,7 +55,7 @@ describe('mergeWeekBlock', () => {
 		expect(result[4][3]?.type).toBe('study')
 	})
 	it('Can exceed the 5x4 structure if required', () => {
-		let result = mergeWeekBlock(getInitialWeekData(), [
+		const result = mergeWeekBlock(getInitialWeekData(), [
 			[classBlock, classBlock, classBlock, classBlock, classBlock],
 			[],
 			[],

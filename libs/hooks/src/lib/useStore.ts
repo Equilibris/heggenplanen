@@ -5,7 +5,7 @@ export const ensureKey = <T, K extends keyof T>(
 	key: K,
 	defaultValue: T[K],
 ): T => {
-	if (!obj.hasOwnProperty(key)) {
+	if (!Object.hasOwnProperty.call(obj, key)) {
 		obj[key] = defaultValue
 
 		return obj
