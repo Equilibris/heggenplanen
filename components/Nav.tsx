@@ -21,8 +21,8 @@ import { ThemeName } from 'typings/userData'
 import TextField from '@mui/material/TextField'
 import {
 	UserContentSelector,
-	mdClass,
 	stClassFactory,
+	mdClassFactory,
 } from 'typings/userContentSelector'
 import { useRouter } from 'next/router'
 import Modal from '@mui/material/Modal'
@@ -30,6 +30,8 @@ import Fade from '@mui/material/Fade'
 import Backdrop from '@mui/material/Backdrop'
 import { UserDataModal } from './UserDataModal'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import LinearProgress from '@mui/material/LinearProgress'
+import { useLoading } from 'context/loading'
 
 const UserSelectorSection: FC = () => {
 	const [user] = useUser()
@@ -42,7 +44,9 @@ const UserSelectorSection: FC = () => {
 
 	const options = useMemo(
 		() => [
-			...mdClass,
+			...mdClassFactory(1),
+			...mdClassFactory(2),
+			...mdClassFactory(3),
 			...stClassFactory(1),
 			...stClassFactory(2),
 			...stClassFactory(3),
@@ -117,6 +121,8 @@ export const Nav = () => {
 		if (user.type !== null) setUser({ ...user, theme })
 	}
 
+	const [loading] = useLoading()
+
 	return (
 		<>
 			<AppBar>
@@ -171,6 +177,7 @@ export const Nav = () => {
 						)}
 					</Spacer>
 				</Toolbar>
+				{loading && <LinearProgress color='secondary' />}
 			</AppBar>
 			<Modal
 				open={modalOpen}

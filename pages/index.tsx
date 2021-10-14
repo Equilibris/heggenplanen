@@ -14,9 +14,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
+import { useLoading } from 'context/loading'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
+
+	const [loading, _] = useLoading()
 
 	const isMobile = useMediaQuery('(max-width:480px')
 	if (isMobile) {
@@ -29,7 +32,7 @@ const Home: NextPage = () => {
 				<title>Timeplan</title>
 			</Head>
 
-			<MainContainer>
+			<MainContainer style={{ opacity: (2 - +loading) / 2 }}>
 				<WeekControl>
 					<IconButton>
 						<KeyboardArrowLeftIcon />
@@ -40,6 +43,7 @@ const Home: NextPage = () => {
 					</IconButton>
 				</WeekControl>
 				<br />
+
 				<Stack
 					spacing={2}
 					direction='row'
@@ -110,42 +114,6 @@ const HomeMobile = () => {
 					))}
 				</Stack>
 			</MainContainer>
-
-			{/* <motion.div
-				style={{
-					position: 'relative',
-					width: 44,
-					height: 44,
-					float: 'left',
-					margin: 8,
-				}}>
-				<motion.div
-					style={{
-						background: '#FFD675',
-						height: 200,
-						width: 200,
-						borderRadius: 25,
-						position: 'absolute',
-						// WebkitBackfaceVisibility: "hidden"
-					}}
-					initial={{ rotateY: 0 }}
-					animate={{ rotateY: -90 }}
-					transition={{ duration: 0.5, ease: 'easeIn' }}
-				/>
-				<motion.div
-					style={{
-						background: '#19D2A7',
-						height: 200,
-						width: 200,
-						borderRadius: 25,
-						position: 'absolute',
-						// WebkitBackfaceVisibility: "hidden"
-					}}
-					initial={{ rotateY: 90 }}
-					animate={{ rotateY: 0 }}
-					transition={{ duration: 0.5, delay: 0.5, ease: 'easeOut' }}
-				/>
-			</motion.div> */}
 		</>
 	)
 }
@@ -160,6 +128,8 @@ const WeekControl = styled.div`
 `
 
 const MainContainer = styled.div`
+	transition: ${({ theme }) => theme.transitions.create('opacity')};
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
