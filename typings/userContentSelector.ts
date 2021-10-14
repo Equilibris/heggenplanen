@@ -57,11 +57,11 @@ export const stClassFactory = <T extends Grade>(v: T): StClassFactory<T>[] => [
 	`${v}STF`,
 ]
 
-export type MdClassFactory<T extends Grade> = `MD${T}` | `MDT${T}`
+export type MdClassFactory<T extends Grade> = `MMA${T}` | `MDA${T}`
 
 export const mdClassFactory = <T extends Grade>(v: T): MdClassFactory<T>[] => [
-	`MD${v}`,
-	`MDT${v}`,
+	`MMA${v}`,
+	`MDA${v}`,
 ]
 
 export type MdClass = 'MD1' | 'MD2' | 'MD3'

@@ -22,7 +22,7 @@ import TextField from '@mui/material/TextField'
 import {
 	UserContentSelector,
 	stClassFactory,
-	mdClassFactory,
+	mdClassFactory
 } from 'typings/userContentSelector'
 import { useRouter } from 'next/router'
 import Modal from '@mui/material/Modal'
