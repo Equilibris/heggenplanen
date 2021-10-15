@@ -1,4 +1,4 @@
-import React, { useState, useRef, useImperativeHandle } from 'react'
+import React, { useState, useRef, useImperativeHandle, forwardRef } from 'react'
 import { makeStyles } from '@mui/styles'
 import Menu, { MenuProps } from '@mui/material/Menu'
 import MenuItem, { MenuItemProps } from '@mui/material/MenuItem'
@@ -51,7 +51,7 @@ const useMenuItemStyles = makeStyles<Theme>((theme) => ({
  * Use as a drop-in replacement for `<MenuItem>` when you need to add cascading
  * menu elements as children to this component.
  */
-const NestedMenuItem = (props: NestedMenuItemProps, ref) => {
+const NestedMenuItem = forwardRef((props: NestedMenuItemProps, ref) => {
 	const {
 		parentMenuOpen,
 		component = 'div',
@@ -195,6 +195,6 @@ const NestedMenuItem = (props: NestedMenuItemProps, ref) => {
 			</Menu>
 		</div>
 	)
-}
+})
 
 export default NestedMenuItem
