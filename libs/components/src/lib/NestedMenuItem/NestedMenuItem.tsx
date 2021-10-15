@@ -51,10 +51,7 @@ const useMenuItemStyles = makeStyles<Theme>((theme) => ({
  * Use as a drop-in replacement for `<MenuItem>` when you need to add cascading
  * menu elements as children to this component.
  */
-const NestedMenuItem = React.forwardRef<
-	HTMLLIElement | null,
-	NestedMenuItemProps
->(function NestedMenuItem(props, ref) {
+const NestedMenuItem = (props: NestedMenuItemProps, ref) => {
 	const {
 		parentMenuOpen,
 		component = 'div',
@@ -165,7 +162,9 @@ const NestedMenuItem = React.forwardRef<
 			onKeyDown={handleKeyDown}>
 			<MenuItem
 				{...MenuItemProps}
-				className={`${menuItemClasses.root} ${className ? className : ''}`}
+				className={`${menuItemClasses.root} ${
+					className ? className : ''
+				}`}
 				ref={menuItemRef}>
 				{label}
 				{rightIcon}
@@ -196,6 +195,6 @@ const NestedMenuItem = React.forwardRef<
 			</Menu>
 		</div>
 	)
-})
+}
 
 export default NestedMenuItem
