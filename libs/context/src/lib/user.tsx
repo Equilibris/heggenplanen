@@ -84,7 +84,7 @@ export const UserProvider: FC = ({ children }) => {
 	}, [])
 
 	useEffect(() => {
-		if (!isToBeUser(user)) {
+		if (isToBeUser(user)) {
 			if (
 				typeof window !== 'undefined' &&
 				typeof localStorage !== 'undefined'
