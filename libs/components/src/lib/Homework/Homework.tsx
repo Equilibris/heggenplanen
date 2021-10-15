@@ -3,7 +3,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import React, { FC } from 'react'
-import { HomeworkBlock } from 'typings/assignmentData'
+import { HomeworkBlock, isToBeUser } from '@heggenplanen/typings'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import styled from '@emotion/styled'
@@ -18,7 +18,7 @@ export const HomeworkByValue: FC<HomeworkBlock & { id: string }> = ({
 }) => {
 	const [user, setUser] = useUser()
 
-	const done = (user.type && user.assignmentData[id]) ?? false
+	const done = (!isToBeUser(user) && user.assignmentData[id]) ?? false
 
 	return (
 		<Card>
@@ -35,10 +35,13 @@ export const HomeworkByValue: FC<HomeworkBlock & { id: string }> = ({
 						<StyledCheckBox
 							checked={done}
 							onChange={() =>
-								user.type &&
+								!isToBeUser(user) &&
 								setUser({
 									...user,
-									assignmentData: { ...user.assignmentData, [id]: !done },
+									assignmentData: {
+										...user.assignmentData,
+										[id]: !done,
+									},
 								})
 							}
 						/>
@@ -65,7 +68,7 @@ export const Homework: FC<{ id: string }> = ({ id }) => {
 
 const useCheckboxColor = (theme: Theme): any => {
 	const [user] = useUser()
-	if (user.type !== null && user.theme === 'dark') {
+	if (!isToBeUser(user) && user.theme === 'dark') {
 		return theme.palette.text.primary
 	} else {
 		return theme.palette.primary

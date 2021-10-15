@@ -8,6 +8,7 @@ import { TypePrimaryBox } from '@heggenplanen/components/style'
 import { useUser } from '@heggenplanen/context'
 import { OAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import Button from '@mui/material/Button'
+import { isIdentifiedUser, isToBeUser } from '@heggenplanen/typings'
 
 // const SignUpForm = () => {
 // 	return (
@@ -46,14 +47,9 @@ const OAuth = () => {
 
 		signInWithPopup(auth, provider)
 			.then((result) => {
-				// User is signed in.
-				// IdP data available in result.additionalUserInfo.profile.
-
-				// Get the OAuth access token and ID Token
-
 				const credential = OAuthProvider.credentialFromResult(result)
 
-				if (user.type !== null) {
+				if (!isToBeUser(user)) {
 					setUser({
 						...user,
 						type: 'Identified',
@@ -62,15 +58,6 @@ const OAuth = () => {
 						credential: null,
 					})
 				}
-
-				// if (credential) {
-				// 	const accessToken = credential.accessToken
-				// 	const idToken = credential.idToken
-
-				// 	console.log(credential)
-				// } else {
-				// 	console.log({ credential })
-				// }
 			})
 			.catch((error) => {
 				// Handle error.
@@ -94,12 +81,14 @@ export const UserDataModal: FC<{ open: boolean }> = ({ open }) => {
 	const [isSignUp, setIsSignUp] = useState(false)
 	const [user] = useUser()
 
-	const isSignedIn = user.type === 'Identified'
+	const isSignedIn = isIdentifiedUser(user)
 
 	return (
 		<Fade in={open}>
 			<StyledCard>
-				<CardContent>{isSignedIn ? <UserDataPage /> : <OAuth />}</CardContent>
+				<CardContent>
+					{isSignedIn ? <UserDataPage /> : <OAuth />}
+				</CardContent>
 			</StyledCard>
 		</Fade>
 	)

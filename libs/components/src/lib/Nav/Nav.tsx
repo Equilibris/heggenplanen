@@ -23,6 +23,8 @@ import {
 	ThemeName,
 	stClassFactory,
 	mdClassFactory,
+	isToBeUser,
+	isIdentifiedUser,
 } from '@heggenplanen/typings'
 import { useRouter } from 'next/router'
 import Modal from '@mui/material/Modal'
@@ -36,12 +38,12 @@ const UserSelectorSection: FC = () => {
 	const [user] = useUser()
 
 	const [value, setValue] = useState<UserContentSelector['class']>(
-		(user.type !== null && user?.selector?.class) || '1STA',
+		(!isToBeUser(user) && user?.selector?.class) || '1STA',
 	)
 
 	const [inputValue, setInputValue] = useState<string>(value)
 
-	const options = useMemo(
+	const options: UserContentSelector['class'][] = useMemo(
 		() => [
 			...mdClassFactory(1),
 			...mdClassFactory(2),
@@ -54,10 +56,10 @@ const UserSelectorSection: FC = () => {
 	)
 
 	return (
-		<Autocomplete
+		<Autocomplete<UserContentSelector['class']>
 			value={value}
 			onChange={(event, newValue) => {
-				if (newValue) setValue(newValue)
+				if (newValue) setValue(newValue as UserContentSelector['class'])
 			}}
 			inputValue={inputValue}
 			onInputChange={(event, newInputValue) => {
@@ -121,7 +123,7 @@ export const Nav = () => {
 
 	const [user, setUser] = useUser()
 	const handleThemeChange = (theme: ThemeName) => {
-		if (user.type !== null) setUser({ ...user, theme })
+		if (!isToBeUser(user)) setUser({ ...user, theme })
 	}
 
 	const [loading] = useLoading()
@@ -184,7 +186,7 @@ export const Nav = () => {
 					</Menu>
 					<UserSelectorSection />
 					<Spacer>
-						{user.type === 'Identified' ? (
+						{isIdentifiedUser(user) ? (
 							<AccountCircleIcon />
 						) : (
 							<Button onClick={handleModalOpen} color='inherit'>

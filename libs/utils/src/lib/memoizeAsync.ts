@@ -1,11 +1,11 @@
 export const memoizeAsync = <Ret, Args extends any[]>(
 	fn: (...args: Args) => Promise<Ret>,
-	keyGen: (...args: Args) => string | number | symbol = (...args) =>
+	keyGen: (...args: Args) => string | number = (...args) =>
 		JSON.stringify(args),
 ) => {
-	const memo: Record<string | number | symbol, Ret> = {}
+	const memo: Record<string | number, Ret> = {}
 	const processQueue: Record<
-		string | number | symbol,
+		string | number,
 		[resolve: (val: Ret) => void, reject: (reason: any) => void][]
 	> = {}
 

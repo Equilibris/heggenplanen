@@ -12,7 +12,12 @@ import React, {
 	useRef,
 } from 'react'
 import { useDebounce, usePrevious } from 'react-use'
-import { IdentifiedUser, User } from '@heggenplanen/typings'
+import {
+	IdentifiedUser,
+	User,
+	isIdentifiedUser,
+	isToBeUser,
+} from '@heggenplanen/typings'
 import {
 	collection,
 	setDoc,
@@ -42,10 +47,9 @@ export const useUser = () => useContext(userContext)
 export const UserProvider: FC = ({ children }) => {
 	const [user, setUser] = useState<User>(mockUser)
 
-	const job = useRef<[debounce: NodeJS.Timeout | null, isInitialRun: boolean]>([
-		null,
-		true,
-	])
+	const job = useRef<
+		[debounce: NodeJS.Timeout | null, isInitialRun: boolean]
+	>([null, true])
 
 	const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
@@ -65,7 +69,7 @@ export const UserProvider: FC = ({ children }) => {
 	)
 
 	const performUpdate = useCallback(async () => {
-		if (user.type === 'Identified' && user.uid)
+		if (isIdentifiedUser(user) && user.uid)
 			await setDoc(doc(getFirestore(), 'users', user.uid), user)
 	}, [user])
 
@@ -80,7 +84,7 @@ export const UserProvider: FC = ({ children }) => {
 	}, [])
 
 	useEffect(() => {
-		if (user.type === null) {
+		if (!isToBeUser(user)) {
 			if (
 				typeof window !== 'undefined' &&
 				typeof localStorage !== 'undefined'
@@ -91,26 +95,31 @@ export const UserProvider: FC = ({ children }) => {
 					try {
 						const user: User = JSON.parse(str)
 
-						if (user.type === 'Identified') {
-							const unsub = onAuthStateChanged(getAuth(), async (signedIn) => {
-								if (signedIn) {
-									let redo = false
+						if (isIdentifiedUser(user)) {
+							const unsub = onAuthStateChanged(
+								getAuth(),
+								async (signedIn) => {
+									if (signedIn) {
+										let redo = false
 
-									do {
-										const result = await getDoc(getDataRef(user))
-										if (result.exists()) {
-											setUser(result.data())
-										} else {
-											await performUpdate()
+										do {
+											const result = await getDoc(
+												getDataRef(user),
+											)
+											if (result.exists()) {
+												setUser(result.data())
+											} else {
+												await performUpdate()
 
-											redo = true
-											continue
-										}
-										redo = false
-									} while (redo)
-								}
-								unsub()
-							})
+												redo = true
+												continue
+											}
+											redo = false
+										} while (redo)
+									}
+									unsub()
+								},
+							)
 						} else {
 							setUser(user)
 						}
@@ -124,7 +133,7 @@ export const UserProvider: FC = ({ children }) => {
 
 	useEffect(
 		() => {
-			if (user.type === 'Identified') {
+			if (isIdentifiedUser(user)) {
 				const unsub = onSnapshot(getDataRef(user), async (snapshot) => {
 					if (snapshot.exists()) setUser(() => snapshot.data())
 					else {
@@ -139,12 +148,12 @@ export const UserProvider: FC = ({ children }) => {
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[user.type === 'Identified'],
+		[isIdentifiedUser(user)],
 	)
 
 	useEffect(
 		() => {
-			if (user.type) {
+			if (!isToBeUser(user)) {
 				setLoading(true)
 
 				job.current[0] = setTimeout(async () => {
@@ -176,7 +185,7 @@ export const UserProvider: FC = ({ children }) => {
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[user.type && user.selector, currentWeek],
+		[!isToBeUser(user) && user.selector, currentWeek],
 	)
 
 	useDebounce(() => void performUpdate(), 5000, [user])

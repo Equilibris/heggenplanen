@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider'
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import NightsStayIcon from '@mui/icons-material/NightsStay'
 import { useUser } from '@heggenplanen/context'
-import { ThemeName } from 'typings/userData'
+import { ThemeName, isToBeUser } from '@heggenplanen/typings'
 import Drawer from '@mui/material/Drawer'
 import { useRouter } from 'next/router'
 import CloseIcon from '@mui/icons-material/Close'
@@ -39,7 +39,7 @@ export const NavMobile = () => {
 
 	const [user, setUser] = useUser()
 	const handleThemeChange = (theme: ThemeName) => {
-		if (user.type !== null) setUser({ ...user, theme })
+		if (!isToBeUser(user)) setUser({ ...user, theme })
 	}
 
 	const [mobileOpen, setMobileOpen] = useState(false)

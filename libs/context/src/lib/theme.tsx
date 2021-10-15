@@ -5,8 +5,12 @@ import {
 	jsx,
 	ThemeProvider as EmotionThemeProvider,
 } from '@emotion/react'
-import { blueTheme, purpleTheme, darkTheme } from '@heggenplanen/components/style'
-import { ThemeName } from '@heggenplanen/typings'
+import {
+	blueTheme,
+	purpleTheme,
+	darkTheme,
+} from '@heggenplanen/components/style'
+import { ThemeName, isToBeUser } from '@heggenplanen/typings'
 import { useUser } from './user'
 import { FC } from 'react'
 
@@ -19,7 +23,7 @@ const themes: Record<ThemeName, Theme> = {
 export const ThemeProvider: FC = ({ children }) => {
 	const [user, _] = useUser()
 
-	const theme = (user.type && themes[user.theme]) || themes.blue
+	const theme = (!isToBeUser(user) && themes[user.theme]) || themes.blue
 
 	return (
 		<MuiTheme theme={theme}>
@@ -27,7 +31,8 @@ export const ThemeProvider: FC = ({ children }) => {
 				<Global
 					styles={(theme) => css`
 						body {
-							background-color: ${theme.palette.background.default};
+							background-color: ${theme.palette.background
+								.default};
 							overflow-x: hidden;
 						}
 					`}
