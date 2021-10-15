@@ -4,7 +4,8 @@ import styled from '@emotion/styled'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import { transformDay } from '@heggenplanen/utils/internationalization'
-import { ClassCard as Class, StudyCard as Study } from '@heggenplanen/components'
+import { ClassCard, StudyCard } from '@heggenplanen/components'
+import { TypePrimary, TypePrimaryBox } from '@heggenplanen/components/style'
 import Head from 'next/head'
 import { useWeekData, useLoading, useCurrentWeek } from '@heggenplanen/context'
 import useMediaQuery from '@mui/material/useMediaQuery'
@@ -49,15 +50,19 @@ const Home: NextPage = () => {
 							setCurrentWeek(currentWeek - 1)
 							if (!loading) setLoading(true)
 						}}>
-						<KeyboardArrowLeftIcon />
+						<TypePrimaryBox component='span'>
+							<KeyboardArrowLeftIcon />
+						</TypePrimaryBox>
 					</IconButton>
-					<Typography variant='h5'>Uke {currentWeek}</Typography>
+					<TypePrimary variant='h5'>Uke {currentWeek}</TypePrimary>
 					<IconButton
 						onClick={() => {
 							setCurrentWeek(currentWeek + 1)
 							if (!loading) setLoading(true)
 						}}>
-						<KeyboardArrowRightIcon />
+						<TypePrimaryBox component='span'>
+							<KeyboardArrowRightIcon />
+						</TypePrimaryBox>
 					</IconButton>
 				</WeekControl>
 				<br />
@@ -80,12 +85,12 @@ const Home: NextPage = () => {
 								<React.Fragment key={i}>
 									{value ? (
 										value.type === 'class' ? (
-											<Class {...value} />
+											<ClassCard {...value} />
 										) : (
-											<Study />
+											<StudyCard />
 										)
 									) : (
-										<Study />
+										<StudyCard />
 									)}
 								</React.Fragment>
 							))}
@@ -125,12 +130,12 @@ const HomeMobile = () => {
 						<React.Fragment key={i}>
 							{value ? (
 								value.type === 'class' ? (
-									<Class {...value} />
+									<ClassCard {...value} />
 								) : (
-									<Study />
+									<StudyCard />
 								)
 							) : (
-								<Study />
+								<StudyCard />
 							)}
 						</React.Fragment>
 					))}
