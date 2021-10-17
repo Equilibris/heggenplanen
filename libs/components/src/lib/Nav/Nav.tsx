@@ -30,7 +30,7 @@ import { useRouter } from 'next/router'
 import Modal from '@mui/material/Modal'
 import Fade from '@mui/material/Fade'
 import Backdrop from '@mui/material/Backdrop'
-import { UserDataModal } from '../UserDataModal/UserDataModal'
+import { AccountMenu } from '../AccountMenu/AccountMenu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LinearProgress from '@mui/material/LinearProgress'
 
@@ -129,85 +129,58 @@ export const Nav = () => {
 	const [loading] = useLoading()
 
 	return (
-		<>
-			<AppBar>
-				<Toolbar sx={{ color: 'white' }}>
-					<IconButton
-						size='large'
-						edge='start'
-						color='inherit'
-						aria-label='open drawer'
-						sx={{ mr: 2 }}
-						onClick={handleClick}>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						variant='h6'
-						noWrap
-						component='div'
-						sx={{
-							flexGrow: 1,
-							display: { xs: 'none', sm: 'block' },
-						}}>
-						Heggenplanen
-					</Typography>
+		<AppBar>
+			<Toolbar sx={{ color: 'white' }}>
+				<IconButton
+					size='large'
+					edge='start'
+					color='inherit'
+					aria-label='open drawer'
+					sx={{ mr: 2 }}
+					onClick={handleClick}>
+					<MenuIcon />
+				</IconButton>
+				<Typography
+					variant='h6'
+					noWrap
+					component='div'
+					sx={{
+						flexGrow: 1,
+						display: { xs: 'none', sm: 'block' },
+					}}>
+					Heggenplanen
+				</Typography>
 
-					<Menu
-						open={menuOpen}
-						anchorEl={anchorEl}
-						onClose={handleClose}>
-						<MenuItem onClick={() => handlePageChange('home')}>
-							Timeplan
+				<Menu open={menuOpen} anchorEl={anchorEl} onClose={handleClose}>
+					<MenuItem onClick={() => handlePageChange('home')}>
+						Timeplan
+					</MenuItem>
+					<MenuItem onClick={() => handlePageChange('assignments')}>
+						Innleveringer
+					</MenuItem>
+					<Divider />
+					<NestedMenuItem label='Tema' parentMenuOpen={menuOpen}>
+						<MenuItem onClick={() => handleThemeChange('blue')}>
+							<FormatColorFillIcon sx={{ color: '#03A9F4' }} />{' '}
+							Hav
 						</MenuItem>
-						<MenuItem
-							onClick={() => handlePageChange('assignments')}>
-							Innleveringer
+						<MenuItem onClick={() => handleThemeChange('purple')}>
+							<FormatColorFillIcon sx={{ color: '#673AB7' }} />
+							Lavender
 						</MenuItem>
-						<Divider />
-						<NestedMenuItem label='Tema' parentMenuOpen={menuOpen}>
-							<MenuItem onClick={() => handleThemeChange('blue')}>
-								<FormatColorFillIcon
-									sx={{ color: '#03A9F4' }}
-								/>{' '}
-								Hav
-							</MenuItem>
-							<MenuItem
-								onClick={() => handleThemeChange('purple')}>
-								<FormatColorFillIcon
-									sx={{ color: '#673AB7' }}
-								/>
-								Lavender
-							</MenuItem>
-							<MenuItem onClick={() => handleThemeChange('dark')}>
-								<NightsStayIcon sx={{ color: '212121' }} />
-								Mørkt
-							</MenuItem>
-						</NestedMenuItem>
-					</Menu>
-					<UserSelectorSection />
-					<Spacer>
-						{isIdentifiedUser(user) ? (
-							<AccountCircleIcon />
-						) : (
-							<Button onClick={handleModalOpen} color='inherit'>
-								Logg Inn
-							</Button>
-						)}
-					</Spacer>
-				</Toolbar>
-				{loading && <LinearProgress color='secondary' />}
-			</AppBar>
-			<Modal
-				open={modalOpen}
-				onClose={() => setModalOpen(false)}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}>
-				<UserDataModal open={modalOpen} />
-			</Modal>
-		</>
+						<MenuItem onClick={() => handleThemeChange('dark')}>
+							<NightsStayIcon sx={{ color: '212121' }} />
+							Mørkt
+						</MenuItem>
+					</NestedMenuItem>
+				</Menu>
+				<UserSelectorSection />
+				<Spacer>
+					<AccountMenu />
+				</Spacer>
+			</Toolbar>
+			{loading && <LinearProgress color='secondary' />}
+		</AppBar>
 	)
 }
 

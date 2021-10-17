@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react'
 
-import { UserDataModal } from './UserDataModal'
+import { AccountMenu } from './AccountMenu'
 
 describe('UserDataModal', () => {
 	it('should render successfully', () => {
-		const { baseElement } = render(<UserDataModal />)
+		const { baseElement } = render(<AccountMenu />)
 		expect(baseElement).toBeTruthy()
 	})
 })
