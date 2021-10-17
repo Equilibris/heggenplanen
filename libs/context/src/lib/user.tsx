@@ -33,6 +33,7 @@ import { doClassSelectorQuery } from '@heggenplanen/utils'
 import { useLoading } from './loading'
 import { useWeekData } from './data'
 import { useCurrentWeek } from './currentWeek'
+import getWeek from 'date-fns/getWeek'
 
 const mockUser: User = {
 	type: null,
@@ -171,7 +172,7 @@ export const UserProvider: FC = ({ children }) => {
 								d: 'D/Biologi 2',
 								e: 'E/Fysikk 1',
 							},
-							currentWeek,
+							getWeek(currentWeek),
 						),
 					})
 

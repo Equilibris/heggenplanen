@@ -14,6 +14,8 @@ import IconButton from '@mui/material/IconButton'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import { useDebounce } from 'react-use'
+import getWeek from 'date-fns/getWeek'
+import add from 'date-fns/add'
 
 const Home: NextPage = () => {
 	const [weekData] = useWeekData()
@@ -47,17 +49,19 @@ const Home: NextPage = () => {
 				<WeekControl>
 					<IconButton
 						onClick={() => {
-							setCurrentWeek(currentWeek - 1)
+							setCurrentWeek(add(currentWeek, { weeks: -1 }))
 							if (!loading) setLoading(true)
 						}}>
 						<TypePrimaryBox component='span'>
 							<KeyboardArrowLeftIcon />
 						</TypePrimaryBox>
 					</IconButton>
-					<TypePrimary variant='h5'>Uke {currentWeek}</TypePrimary>
+					<TypePrimary variant='h5'>
+						Uke {getWeek(currentWeek)}
+					</TypePrimary>
 					<IconButton
 						onClick={() => {
-							setCurrentWeek(currentWeek + 1)
+							setCurrentWeek(add(currentWeek, { weeks: 1 }))
 							if (!loading) setLoading(true)
 						}}>
 						<TypePrimaryBox component='span'>
