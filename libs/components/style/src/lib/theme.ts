@@ -1,5 +1,7 @@
 import { createTheme, Components } from '@mui/material/styles'
 
+import { teal } from '@mui/material/colors'
+
 const components: Components = {
 	MuiAccordion: {
 		defaultProps: {
@@ -56,7 +58,7 @@ export const darkTheme = createTheme({
 			main: '#1C1E1F',
 		},
 		secondary: {
-			main: '#1F2122',
+			main: teal['300'],
 		},
 		background: {
 			default: '#252525',

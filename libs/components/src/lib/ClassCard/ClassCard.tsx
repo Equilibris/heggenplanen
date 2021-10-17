@@ -2,6 +2,7 @@ import Typography from '@mui/material/Typography'
 import React, { FC, useState } from 'react'
 import { ClassDataBlock } from '@heggenplanen/typings'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import Stack from '@mui/material/Stack'
 import { Homework } from '../Homework/Homework'
 import CardHeader from '@mui/material/CardHeader'
@@ -11,7 +12,16 @@ import CardActions from '@mui/material/CardActions'
 import IconButton, { IconButtonProps } from '@mui/material/IconButton'
 import styled from '@emotion/styled'
 import { styled as muiStyled } from '@mui/material/styles'
-import { StyledCard, TypeDisabledBox } from '@heggenplanen/components/style'
+import {
+	StyledCard,
+	TypeDisabledBox,
+	TypePrimaryBox,
+} from '@heggenplanen/components/style'
+import Badge from '@mui/material/Badge'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import ShareIcon from '@mui/icons-material/Share'
+import EditIcon from '@mui/icons-material/Edit'
 
 export const ClassCard: FC<ClassDataBlock> = ({
 	className,
@@ -19,6 +29,15 @@ export const ClassCard: FC<ClassDataBlock> = ({
 	homework,
 }) => {
 	const [expanded, setExpanded] = useState(false)
+
+	const [anchorEl, setAnchorEl] = React.useState(null)
+	const open = Boolean(anchorEl)
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget)
+	}
+	const handleClose = () => {
+		setAnchorEl(null)
+	}
 
 	return (
 		<div>
@@ -31,6 +50,41 @@ export const ClassCard: FC<ClassDataBlock> = ({
 					}}
 					title={className}
 					subheader={roomIdentifier}
+					action={
+						<>
+							<IconButton
+								aria-label='settings'
+								onClick={handleClick}>
+								<TypePrimaryBox>
+									<Badge
+										color='secondary'
+										variant='dot'
+										invisible={false}>
+										<MoreVertIcon color='inherit' />
+									</Badge>
+								</TypePrimaryBox>
+							</IconButton>
+
+							<Menu
+								id='action-menu'
+								anchorEl={anchorEl}
+								open={open}
+								onClose={handleClose}
+								MenuListProps={{
+									'aria-labelledby': 'action-button',
+									role: 'listbox',
+								}}>
+								<MenuItem onClick={handleClose}>
+									<ShareIcon sx={{ marginRight: '1ch' }} />
+									Del
+								</MenuItem>
+								<MenuItem onClick={handleClose}>
+									<EditIcon sx={{ marginRight: '1ch' }} />
+									Rediger
+								</MenuItem>
+							</Menu>
+						</>
+					}
 				/>
 
 				{homework.length ? (
@@ -47,7 +101,9 @@ export const ClassCard: FC<ClassDataBlock> = ({
 								<ExpandMore
 									expand={expanded}
 									onClick={() => setExpanded(!expanded)}>
-									<ExpandMoreIcon />
+									<TypeDisabledBox component='span'>
+										<ExpandMoreIcon />
+									</TypeDisabledBox>
 								</ExpandMore>
 							</StyledCardActions>
 						</Block>
