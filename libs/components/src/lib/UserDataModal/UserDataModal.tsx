@@ -9,6 +9,12 @@ import { useUser } from '@heggenplanen/context'
 import { OAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import Button from '@mui/material/Button'
 import { isIdentifiedUser, isToBeUser } from '@heggenplanen/typings'
+import Box from '@mui/material/Box'
+import Tab from '@mui/material/Tab'
+import Tabs from '@mui/material/Tabs'
+import TabPanel from '@material-ui/lab/TabPanel'
+import TabContext from '@material-ui/lab/TabContext'
+import TabList from '@material-ui/lab/TabList'
 
 // const SignUpForm = () => {
 // 	return (
@@ -35,7 +41,7 @@ import { isIdentifiedUser, isToBeUser } from '@heggenplanen/typings'
 const OAuth = () => {
 	const [user, setUser] = useUser()
 
-	const signInWithMicrosoft = useCallback(() => {
+	const signInWithGoogle = useCallback(() => {
 		const provider = new OAuthProvider('google.com')
 		const auth = getAuth()
 
@@ -62,23 +68,33 @@ const OAuth = () => {
 			.catch((error) => {
 				// Handle error.
 			})
-	}, [])
+	}, [user, setUser])
+
+	const [tab, setTab] = useState('1')
 
 	return (
-		<>
-			<Typography variant='h3'>
-				<TypePrimaryBox component='span'>Sign up</TypePrimaryBox>
-			</Typography>
-			<Button onClick={signInWithMicrosoft}>microtork</Button>
-		</>
+		<TabContext value={tab}>
+			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+				<TabList
+					onChange={(event, value) => setTab(value)}
+					aria-label='lab API tabs example'>
+					<Tab label='Logg Inn' value='1' />
+					<Tab label='Ny Bruker' value='2' />
+				</TabList>
+			</Box>
+			<TabPanel value='1'>
+				<Button onClick={signInWithGoogle}>Google</Button>
+			</TabPanel>
+			<TabPanel value='2'></TabPanel>
+		</TabContext>
 	)
 }
+
 const UserDataPage = () => {
 	return <></>
 }
 
 export const UserDataModal: FC<{ open: boolean }> = ({ open }) => {
-	const [isSignUp, setIsSignUp] = useState(false)
 	const [user] = useUser()
 
 	const isSignedIn = isIdentifiedUser(user)
