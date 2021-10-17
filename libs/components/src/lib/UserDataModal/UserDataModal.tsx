@@ -4,7 +4,7 @@ import Card from '@mui/material/Card'
 import React, { FC, useCallback, useState } from 'react'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
-import { TypePrimaryBox } from '@heggenplanen/components/style'
+import { TypePrimary, TypePrimaryBox } from '@heggenplanen/components/style'
 import { useUser } from '@heggenplanen/context'
 import { OAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import Button from '@mui/material/Button'
@@ -67,18 +67,23 @@ const OAuth = () => {
 	return (
 		<>
 			<Typography variant='h3'>
-				<TypePrimaryBox component='span'>Sign up</TypePrimaryBox>
+				<TypePrimaryBox component='span'>Logg Inn</TypePrimaryBox>
 			</Typography>
 			<Button onClick={signInWithMicrosoft}>microtork</Button>
 		</>
 	)
 }
 const UserDataPage = () => {
-	return <></>
+	const [user] = useUser()
+
+	return (
+		<>
+			<TypePrimary></TypePrimary>
+		</>
+	)
 }
 
 export const UserDataModal: FC<{ open: boolean }> = ({ open }) => {
-	const [isSignUp, setIsSignUp] = useState(false)
 	const [user] = useUser()
 
 	const isSignedIn = isIdentifiedUser(user)
