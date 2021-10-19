@@ -3,7 +3,6 @@ import React, { FC, useEffect, useMemo, useState } from 'react'
 import { alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
-import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputBase, { InputBaseProps } from '@mui/material/InputBase'
@@ -13,25 +12,15 @@ import SearchIcon from '@mui/icons-material/Search'
 import styled from '@emotion/styled'
 import Autocomplete from '@mui/material/Autocomplete'
 import MenuItem from '@mui/material/MenuItem'
-import Divider from '@mui/material/Divider'
-import NestedMenuItem from '../NestedMenuItem/NestedMenuItem'
-import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
-import NightsStayIcon from '@mui/icons-material/NightsStay'
 import TextField from '@mui/material/TextField'
 import {
 	UserContentSelector,
-	ThemeName,
 	stClassFactory,
 	mdClassFactory,
 	isToBeUser,
-	isIdentifiedUser,
 } from '@heggenplanen/typings'
 import { useRouter } from 'next/router'
-import Modal from '@mui/material/Modal'
-import Fade from '@mui/material/Fade'
-import Backdrop from '@mui/material/Backdrop'
 import { AccountMenu } from '../AccountMenu/AccountMenu'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LinearProgress from '@mui/material/LinearProgress'
 
 const UserSelectorSection: FC = () => {
@@ -91,8 +80,6 @@ export const Nav = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const menuOpen = Boolean(anchorEl)
 
-	const [modalOpen, setModalOpen] = useState(false)
-
 	useEffect(() => {
 		router.prefetch('/')
 		router.prefetch('/assignments')
@@ -116,15 +103,8 @@ export const Nav = () => {
 				break
 		}
 	}
-	const handleModalOpen = () => {
-		setModalOpen(true)
-		handleClose()
-	}
 
 	const [user, setUser] = useUser()
-	const handleThemeChange = (theme: ThemeName) => {
-		if (!isToBeUser(user)) setUser({ ...user, theme })
-	}
 
 	const [loading] = useLoading()
 
@@ -158,21 +138,6 @@ export const Nav = () => {
 					<MenuItem onClick={() => handlePageChange('assignments')}>
 						Innleveringer
 					</MenuItem>
-					<Divider />
-					<NestedMenuItem label='Tema' parentMenuOpen={menuOpen}>
-						<MenuItem onClick={() => handleThemeChange('blue')}>
-							<FormatColorFillIcon sx={{ color: '#03A9F4' }} />{' '}
-							Hav
-						</MenuItem>
-						<MenuItem onClick={() => handleThemeChange('purple')}>
-							<FormatColorFillIcon sx={{ color: '#673AB7' }} />
-							Lavender
-						</MenuItem>
-						<MenuItem onClick={() => handleThemeChange('dark')}>
-							<NightsStayIcon sx={{ color: '212121' }} />
-							Mørkt
-						</MenuItem>
-					</NestedMenuItem>
 				</Menu>
 				<UserSelectorSection />
 				<Spacer>

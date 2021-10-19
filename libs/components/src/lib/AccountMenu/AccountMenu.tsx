@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react'
 import { OAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
-import { isIdentifiedUser, isToBeUser } from '@heggenplanen/typings'
+import { isIdentifiedUser, isToBeUser, ThemeName } from '@heggenplanen/typings'
 import Box from '@mui/material/Box'
 import Divider from '@mui/material/Divider'
 import Menu from '@mui/material/Menu'
@@ -9,11 +9,15 @@ import IconButton from '@mui/material/IconButton'
 import Avatar from '@mui/material/Avatar'
 import MenuItem from '@mui/material/MenuItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
-import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
 import { useUser } from '@heggenplanen/context'
 import GoogleIcon from '@mui/icons-material/Google'
 import Button from '@mui/material/Button'
+import NestedMenuItem from '../NestedMenuItem/NestedMenuItem'
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import NightsStayIcon from '@mui/icons-material/NightsStay'
+import SettingsIcon from '@mui/icons-material/Settings'
 
 export const AccountMenu = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -36,12 +40,9 @@ export const AccountMenu = () => {
 						alignItems: 'center',
 						textAlign: 'center',
 					}}>
-					<Tooltip title='Konto-innstillinger'>
-						<IconButton
-							onClick={handleClick}
-							size='small'
-							sx={{ ml: 2 }}>
-							<Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+					<Tooltip title='Konto'>
+						<IconButton onClick={handleClick} color='inherit'>
+							<AccountCircleIcon sx={{ width: 32, height: 32 }} />
 						</IconButton>
 					</Tooltip>
 				</Box>
@@ -84,13 +85,13 @@ export const AccountMenu = () => {
 				}}
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-				{isIdentifiedUser(user) ? <UserData /> : <UserLogin />}
+				{isIdentifiedUser(user) ? <UserMenu open={open} /> : <OAuth />}
 			</Menu>
 		</React.Fragment>
 	)
 }
 
-const UserLogin = () => {
+const OAuth = () => {
 	const [user, setUser] = useUser()
 
 	const signInWithGoogle = useCallback(() => {
@@ -132,7 +133,7 @@ const UserLogin = () => {
 	)
 }
 
-const UserData = () => {
+const UserMenu = (open) => {
 	const [user, setUser] = useUser()
 	const logout = useCallback(() => {
 		if (!isToBeUser(user)) {
@@ -143,18 +144,38 @@ const UserData = () => {
 		}
 	}, [user, setUser])
 
+	const handleThemeChange = (theme: ThemeName) => {
+		if (!isToBeUser(user)) setUser({ ...user, theme })
+	}
+
 	return (
 		<>
 			<MenuItem>
 				<Avatar /> Profil
 			</MenuItem>
 			<Divider />
-			<MenuItem>
-				<ListItemIcon>
-					<Settings fontSize='small' />
-				</ListItemIcon>
-				Innstillinger
-			</MenuItem>
+			<NestedMenuItem
+				label={
+					<>
+						<ListItemIcon>
+							<SettingsIcon fontSize='small' />
+						</ListItemIcon>
+						Tema
+					</>
+				}
+				parentMenuOpen={open}>
+				<MenuItem onClick={() => handleThemeChange('blue')}>
+					<FormatColorFillIcon sx={{ color: '#03A9F4' }} /> Hav
+				</MenuItem>
+				<MenuItem onClick={() => handleThemeChange('purple')}>
+					<FormatColorFillIcon sx={{ color: '#673AB7' }} />
+					Lavender
+				</MenuItem>
+				<MenuItem onClick={() => handleThemeChange('dark')}>
+					<NightsStayIcon sx={{ color: '212121' }} />
+					Mørkt
+				</MenuItem>
+			</NestedMenuItem>
 			<MenuItem onClick={logout}>
 				<ListItemIcon>
 					<Logout fontSize='small' />
