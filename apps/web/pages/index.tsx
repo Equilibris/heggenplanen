@@ -78,9 +78,9 @@ const Home: NextPage = () => {
 							key={key}
 							spacing={2}
 							width={{ xl: 250, l: 200 }}>
-							<StyledTypography variant='h3'>
+							<TypePrimary variant='h3'>
 								{transformDay(key)}
-							</StyledTypography>
+							</TypePrimary>
 							{value.map((value, i) => (
 								<React.Fragment key={i}>
 									{value ? (
@@ -123,9 +123,9 @@ const HomeMobile = () => {
 		<>
 			<MainContainer {...daySwipeHandlers}>
 				<Stack key={day} spacing={2} width={{ xl: 250, l: 200 }}>
-					<StyledTypography variant='h3' sx={{ textAlign: 'center' }}>
+					<TypePrimary variant='h3' sx={{ textAlign: 'center' }}>
 						{transformDay(day)}
-					</StyledTypography>
+					</TypePrimary>
 					{weekData[day].map((value, i) => (
 						<React.Fragment key={i}>
 							{value ? (
@@ -144,10 +144,6 @@ const HomeMobile = () => {
 		</>
 	)
 }
-
-const StyledTypography = styled(Typography)`
-	color: ${({ theme }) => theme.palette.text.primary};
-`
 
 const WeekControl = styled.div`
 	display: flex;

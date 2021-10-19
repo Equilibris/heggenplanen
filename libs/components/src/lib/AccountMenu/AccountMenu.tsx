@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { OAuthProvider, getAuth, signInWithPopup } from 'firebase/auth'
 import { isIdentifiedUser, isToBeUser, ThemeName } from '@heggenplanen/typings'
 import Box from '@mui/material/Box'
@@ -18,6 +18,7 @@ import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import NightsStayIcon from '@mui/icons-material/NightsStay'
 import SettingsIcon from '@mui/icons-material/Settings'
+import { useRouter } from 'next/router'
 
 export const AccountMenu = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
@@ -113,8 +114,9 @@ const OAuth = () => {
 						...user,
 						type: 'Identified',
 						uid: result.user.uid,
-						// credential: credential?.toJSON ? credential.toJSON() : null,
-						credential: null,
+						credential: credential?.toJSON
+							? credential.toJSON()
+							: null,
 					})
 				}
 			})
@@ -148,9 +150,18 @@ const UserMenu = (open) => {
 		if (!isToBeUser(user)) setUser({ ...user, theme })
 	}
 
+	const router = useRouter()
+	useEffect(() => {
+		router.prefetch('/me')
+	}, [router])
+
+	const goToProfilePage = () => {
+		router.push('/me')
+	}
+
 	return (
 		<>
-			<MenuItem>
+			<MenuItem onClick={goToProfilePage}>
 				<Avatar /> Profil
 			</MenuItem>
 			<Divider />
