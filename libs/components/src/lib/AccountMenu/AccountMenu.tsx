@@ -17,7 +17,7 @@ import NestedMenuItem from '../NestedMenuItem/NestedMenuItem'
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import NightsStayIcon from '@mui/icons-material/NightsStay'
-import SettingsIcon from '@mui/icons-material/Settings'
+import PaletteIcon from '@mui/icons-material/Palette'
 import { useRouter } from 'next/router'
 
 export const AccountMenu = () => {
@@ -169,21 +169,29 @@ const UserMenu = (open) => {
 				label={
 					<>
 						<ListItemIcon>
-							<SettingsIcon fontSize='small' />
+							<PaletteIcon fontSize='small' />
 						</ListItemIcon>
 						Tema
 					</>
 				}
-				parentMenuOpen={open}>
+				parentMenuOpen={open}
+				side='left'>
 				<MenuItem onClick={() => handleThemeChange('blue')}>
-					<FormatColorFillIcon sx={{ color: '#03A9F4' }} /> Hav
+					<ListItemIcon>
+						<FormatColorFillIcon sx={{ color: '#03A9F4' }} />
+					</ListItemIcon>
+					Blå
 				</MenuItem>
 				<MenuItem onClick={() => handleThemeChange('purple')}>
-					<FormatColorFillIcon sx={{ color: '#673AB7' }} />
-					Lavender
+					<ListItemIcon>
+						<FormatColorFillIcon sx={{ color: '#673AB7' }} />
+					</ListItemIcon>
+					Lilla
 				</MenuItem>
 				<MenuItem onClick={() => handleThemeChange('dark')}>
-					<NightsStayIcon sx={{ color: '212121' }} />
+					<ListItemIcon>
+						<NightsStayIcon sx={{ color: '212121' }} />
+					</ListItemIcon>
 					Mørkt
 				</MenuItem>
 			</NestedMenuItem>

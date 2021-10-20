@@ -38,6 +38,12 @@ export interface NestedMenuItemProps extends Omit<MenuItemProps, 'button'> {
 	 * @see https://material-ui.com/api/list-item/
 	 */
 	button?: true | undefined
+
+	/**
+	 * Which side the sub-menu should be rendered at
+	 * @default 'right'
+	 */
+	side?: 'right' | 'left'
 }
 
 const TRANSPARENT = 'rgba(0,0,0,0)'
@@ -62,6 +68,7 @@ const NestedMenuItem = forwardRef((props: NestedMenuItemProps, ref) => {
 		tabIndex: tabIndexProp,
 		MenuProps = {},
 		ContainerProps: ContainerPropsProp = {},
+		side = 'right',
 		...MenuItemProps
 	} = props
 
@@ -176,11 +183,11 @@ const NestedMenuItem = forwardRef((props: NestedMenuItemProps, ref) => {
 				anchorEl={menuItemRef.current}
 				anchorOrigin={{
 					vertical: 'top',
-					horizontal: 'right',
+					horizontal: side,
 				}}
 				transformOrigin={{
 					vertical: 'top',
-					horizontal: 'left',
+					horizontal: side === 'right' ? 'left' : 'right',
 				}}
 				open={open}
 				autoFocus={false}
